@@ -14,10 +14,14 @@ extern "C" int sim_run(void* x, void* p, void* y, int64_t b, int64_t s, int64_t 
     sim::forcedLaunches=0; sim::tinyLaunches=0;
     sim::gmInCalls=sim::gmOutCalls=sim::gmInBytes=sim::gmOutBytes=0;
     sim::tbufInitCalls=sim::tqueInitCalls=0;
-    for(unsigned i=0;i<6;++i) sim::eventSets[i]=sim::eventWaits[i]=0;
+    for(size_t i=0;i<sizeof(sim::eventSets)/sizeof(sim::eventSets[0]);++i)
+        sim::eventSets[i]=sim::eventWaits[i]=0;
     try {
         run_kernel((GM_ADDR)x,xg,(GM_ADDR)p,pg,(GM_ADDR)y,yg,cores,nullptr,theta);
         if (sim::launches != 1) throw std::runtime_error("Expected exactly one kernel launch");
+        for(size_t i=0;i<sizeof(sim::eventSets)/sizeof(sim::eventSets[0]);++i)
+            if (sim::eventSets[i] != sim::eventWaits[i])
+                throw std::runtime_error("Unbalanced explicit pipeline events");
         return 0;
     } catch(const std::exception& e) {
         std::fprintf(stderr,"CPU SIM: %s\n",e.what()); return -1;

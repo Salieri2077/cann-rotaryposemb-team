@@ -1,4 +1,10 @@
-# Current implementation — submission 230746
+# Current implementation — submission 233563
+
+15/15 Pass in each of two candidate runs; precision_ratio=1 throughout. Two runs per source give **3.00% lower geometric mean of per-case latency ratios** and **0.37% lower sum of case times**. Individual paired comparisons improve 4.15% and 1.82%; two repeats do not establish statistical significance.
+
+[Final submission](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ee06fc76b321ca6ab38e6); [experiment methods, all 15 cases, rejected candidates and raw results](docs/pipeline-experiments/README.md). The retained change replaces the scalar-consumed position queue with a 256B buffer and direct MTE2/Scalar synchronization. Arithmetic, tiling and UB size stay unchanged.
+
+# Historical implementation — submission 230746
 
 **15/15 Pass, 10.4053 points** on the captured reference; verified rank5 on2026-09-07. [Submission](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e99f2bf41025d6015c51c).
 

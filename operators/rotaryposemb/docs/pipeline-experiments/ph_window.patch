@@ -1,0 +1,40 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -40,24 +40,21 @@
+         0x4f10e410u, 0x36d8a566u, 0x7d4d3770u,
+         0x7f09d5f4u, 0x9391054au, 0x28be60dbu
+     };
+-    uint32_t product[7];
+-    uint64_t carry = 0;
+-    for (uint32_t i = 0; i < 6; ++i) {
+-        const uint64_t partial = uint64_t(mantissa) * reciprocal[i] + carry;
+-        product[i] = uint32_t(partial);
+-        carry = partial >> 32;
+-    }
+-    product[6] = uint32_t(carry);
+-
+-    // angle/(2*pi) = product * 2^(exponent-215). Extract the
+-    // most significant 32 fractional bits. Their sign bit selects
+-    // the nearest integer without subtracting two nearly equal floats.
+-    const uint32_t fractionalShift = uint32_t(215 - exponent);
+-    const uint32_t firstBit = fractionalShift - 32;
++    // Extract only the 32-bit fractional window needed for FP32 reduction.
++    // For finite |angle| > pi, exponent is 1..127 and word is 1..5.
++    const uint32_t firstBit = uint32_t(183 - exponent);
+     const uint32_t word = firstBit >> 5;
+     const uint32_t bit = firstBit & 31;
+-    uint32_t fraction = product[word] >> bit;
+-    if (bit != 0) fraction |= product[word + 1] << (32 - bit);
++    // Omitting reciprocal words below word-1 changes the unrounded quotient
++    // by less than mantissa / 2^(32+bit) < 1/256. The extracted integer
++    // fraction therefore differs by at most one LSB (2^-32 turns).
++    const uint64_t low = uint64_t(mantissa) * reciprocal[word - 1];
++    const uint64_t middle = uint64_t(mantissa) * reciprocal[word] + (low >> 32);
++    const uint32_t high = word < 5
++        ? uint32_t(uint64_t(mantissa) * reciprocal[word + 1] + (middle >> 32))
++        : uint32_t(middle >> 32);
++    uint32_t fraction = uint32_t(middle) >> bit;
++    if (bit != 0) fraction |= high << (32 - bit);
+     // Avoid implementation-defined unsigned-to-signed integer conversion.
+     const int32_t signedFraction = fraction < 0x80000000u
+         ? int32_t(fraction) : -int32_t(0xffffffffu - fraction) - 1;

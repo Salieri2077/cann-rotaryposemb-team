@@ -1,12 +1,13 @@
 # RotaryPosEmb 团队算子
 
-当前内核对应提交 **230746**，平台 **15/15 Pass**，本轮基准分数 **10.41**。[正式评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e99f2bf41025d6015c51c)；[本轮逐项实验](docs/sprint65/README.md)。此前 56.97 分采用另一组 best_time，不能直接与本轮分数比较。2026-09-07本次核查第5名，已达到前6目标；排名会随其他提交变化。
+当前内核对应提交 **233563**，两轮平台评测均 **15/15 Pass**。相对同一时段复测的原版，按两轮逐点均值计算，耗时比几何平均下降 **3.00%**，总耗时下降 **0.37%**；仅各两轮，仍有测量波动。[正式评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ee06fc76b321ca6ab38e6)；[流水线、布局和数学方案的实测对比](docs/pipeline-experiments/README.md)。本轮以超越自身耗时为目标。
 
 ## 实现
 
 小张量专用路径：FP32、D16、H1且token数不超过可用核心数时，每核处理完整token；仅传36B配置，使用416B临时存储及显式DMA事件，省去通用队列。其他输入继续使用通用实现。第一个测试点由此前最好版本的3.42降至2.99，约下降12.6%。[专项设计与验证](docs/sprint65/one_token_design.md)。
 
 - 保留官方 FP16/FP32 输入、前后半维旋转、FP32 中间计算与 run_kernel 签名。
+- positions 采用 256B 单缓存，以 MTE2_S 与 S_MTE2 直接同步搬运和标量访问，去除多余的向量队列依赖。
 - 跨 token 批量计算联合 Sin/Cos，低 head 广播系数；共享 head 使用整行向量计算和双缓冲。
 - D16/32/64/128 使用 136/168/232/360B 参数，其他维度保持不超过 1472B；每次调用恰好一次核函数启动。
 - 前两段范围约简用精确乘积 Axpy；大角度仍走整数 Payne–Hanek，保持原精度阈值。

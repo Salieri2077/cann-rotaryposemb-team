@@ -1,0 +1,35 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -392,7 +392,10 @@
+         pipe_.InitBuffer(fpWork_, fpWorkBytes);
+         pipe_.InitBuffer(product_, cfg_->tileElements * sizeof(float));
+         pipe_.InitBuffer(frequencies_, RowStride(config) * sizeof(float));
+-        pipe_.InitBuffer(angleWork_, 7 * config.angleCapacity * sizeof(float));
++        // Keep simultaneous 256B vector reads in opposite UB bank-group halves.
++        angleSlotStride_ = (config.angleCapacity + 127u) & ~127u;
++        pipe_.InitBuffer(angleWork_, (6 * angleSlotStride_ + 192u +
++                                     config.angleCapacity) * sizeof(float));
+ 
+         auto freq = frequencies_.Get<float>();
+         // Separate raw and compressed loops: avoid division/modulo and format
+@@ -528,7 +531,11 @@
+ 
+     __aicore__ inline LocalTensor<float> AngleBuffer(uint32_t index)
+     {
+-        return angleWork_.Get<float>()[index * cfg_->angleCapacity];
++        // Additional offsets for slots 0..6 are 0,64,128,128,128,192,192 floats.
++        // Hot calls use literal indices, so the compiler folds this selection.
++        const uint32_t skew = index == 0 ? 0u : index == 1 ? 64u :
++                              index < 5 ? 128u : 192u;
++        return angleWork_.Get<float>()[index * angleSlotStride_ + skew];
+     }
+ 
+     __aicore__ inline void FinishTrig(uint32_t count)
+@@ -1039,6 +1046,7 @@
+     }
+ 
+     const Config* cfg_;
++    uint32_t angleSlotStride_;
+     TPipe pipe_;
+     TQue<QuePosition::VECIN, 1> inputQueue_;
+     TQue<QuePosition::VECOUT, 1> outputQueue_;

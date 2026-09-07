@@ -1,0 +1,88 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -531,8 +531,85 @@
+         return angleWork_.Get<float>()[index * cfg_->angleCapacity];
+     }
+ 
++    // Quarter-wave approximation: |r| <= 0.80, including rounded-quotient boundaries.
++    // Integer Add/Sub operate on FP32 bit patterns modulo 2^32, not on FP32 values.
++    __aicore__ inline void FinishTrigQuarter(uint32_t count)
++    {
++        auto r = AngleBuffer(0);
++        auto q = AngleBuffer(1);
++        auto qi = AngleBuffer(2).template ReinterpretCast<int32_t>();
++        auto z = AngleBuffer(3);
++        auto sin = AngleBuffer(6);
++        auto cos = AngleBuffer(5);
++        Muls(q, r, 0.63661977236758134308f, count);
++        PipeBarrier<PIPE_V>();
++        Cast(qi, q, RoundMode::CAST_RINT, count);
++        PipeBarrier<PIPE_V>();
++        Cast(q, qi, RoundMode::CAST_NONE, count);
++        PipeBarrier<PIPE_V>();
++        // The first two products are exact over |q| <= 83444.
++        Muls(sin, q, -6.39757843146071536e-07f, count);
++        Axpy(r, q, -1.5703125f, count);
++        PipeBarrier<PIPE_V>();
++        Axpy(r, q, -0.000484466552734375f, count);
++        PipeBarrier<PIPE_V>();
++        Sub(r, r, sin, count);
++        PipeBarrier<PIPE_V>();
++        Mul(z, r, r, count);
++        PipeBarrier<PIPE_V>();
++        Muls(sin, z, -1.94913445739075541e-04f, count);
++        Muls(cos, z, -1.35745154693722725e-03f, count);
++        PipeBarrier<PIPE_V>();
++        Adds(sin, sin, 8.33193678408861160e-03f, count);
++        Adds(cos, cos, 4.16541285812854767e-02f, count);
++        PipeBarrier<PIPE_V>();
++        Mul(sin, sin, z, count);
++        Mul(cos, cos, z, count);
++        PipeBarrier<PIPE_V>();
++        Adds(sin, sin, -1.66666492819786072e-01f, count);
++        Adds(cos, cos, -4.99998390674591064e-01f, count);
++        PipeBarrier<PIPE_V>();
++        Mul(sin, sin, z, count);
++        Mul(cos, cos, z, count);
++        PipeBarrier<PIPE_V>();
++        Adds(sin, sin, 1.00000000000000000e+00f, count);
++        Adds(cos, cos, 9.99999940395355225e-01f, count);
++        PipeBarrier<PIPE_V>();
++        Mul(sin, sin, r, count);
++        PipeBarrier<PIPE_V>();
++
++        // q odd => exchange s and c.  q bit1 negates s; bit1 XOR bit0 negates c.
++        auto odd = r.template ReinterpretCast<int32_t>();
++        auto signSin = q.template ReinterpretCast<int32_t>();
++        auto signCos = qi;
++        auto delta = z.template ReinterpretCast<int32_t>();
++        auto sinBits = sin.template ReinterpretCast<int32_t>();
++        auto cosBits = cos.template ReinterpretCast<int32_t>();
++        ShiftLeft(odd, qi, int32_t(31), count);
++        ShiftRight(signSin, qi, int32_t(1), count);
++        PipeBarrier<PIPE_V>();
++        ShiftLeft(signSin, signSin, int32_t(31), count);
++        Sub(delta, cosBits, sinBits, count);
++        PipeBarrier<PIPE_V>();
++        Add(signCos, signSin, odd, count);
++        ShiftRight(odd, odd, int32_t(31), count);
++        PipeBarrier<PIPE_V>();
++        // A2 And uses 16-bit lanes; cover both halves of each 32-bit word.
++        And(delta.template ReinterpretCast<int16_t>(),
++            delta.template ReinterpretCast<int16_t>(),
++            odd.template ReinterpretCast<int16_t>(), 2 * count);
++        PipeBarrier<PIPE_V>();
++        Add(sinBits, sinBits, delta, count);
++        Sub(cosBits, cosBits, delta, count);
++        PipeBarrier<PIPE_V>();
++        Add(sinBits, sinBits, signSin, count);
++        Add(cosBits, cosBits, signCos, count);
++        PipeBarrier<PIPE_V>();
++    }
++
+     __aicore__ inline void FinishTrig(uint32_t count)
+     {
++        if (!cfg_->wideAngles) { FinishTrigQuarter(count); return; }
+         auto angle = AngleBuffer(0);
+         auto quotient = AngleBuffer(1);
+         auto quotientInt = AngleBuffer(2).template ReinterpretCast<int32_t>();
