@@ -1,0 +1,578 @@
+{
+  "selected": "v4",
+  "kernel_sha256": "db2f8c4f62128e8c41c179bbf9a4aecad1636f0abf1e3a4017d1e3050c19d4d9",
+  "ranking_url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/ranking",
+  "comparison": "All versions recalculated against the selected result best_time values; scores are dynamic.",
+  "versions": {
+    "baseline": {
+      "_id": "6a9db190bf41025d60db0a29",
+      "ID": 224901,
+      "status": "Pass",
+      "create_time": "2026-09-06T18:31:44.020Z",
+      "result": [
+        {
+          "testcase_id": "6a9a9befbf41025d6014321d",
+          "time": 4.69,
+          "best_time": 2.01,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143221",
+          "time": 6.12,
+          "best_time": 2.7,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143225",
+          "time": 15.68,
+          "best_time": 5.77,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143229",
+          "time": 20.68,
+          "best_time": 10.93,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014322d",
+          "time": 25.12,
+          "best_time": 13.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143231",
+          "time": 46.28,
+          "best_time": 13.17,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143235",
+          "time": 36.99,
+          "best_time": 18.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143239",
+          "time": 26.6,
+          "best_time": 11.54,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014323d",
+          "time": 58.37,
+          "best_time": 36.18,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143241",
+          "time": 8495.74,
+          "best_time": 3694.74,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143245",
+          "time": 81.57,
+          "best_time": 37.22,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143249",
+          "time": 166.54,
+          "best_time": 72.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014324d",
+          "time": 364.74,
+          "best_time": 329.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143251",
+          "time": 1054.86,
+          "best_time": 849.36,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143255",
+          "time": 452.71,
+          "best_time": 286.38,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        }
+      ],
+      "score_on_selected_reference": 39.895567595080365
+    },
+    "v1": {
+      "_id": "6a9e75a8bf41025d6008e7a4",
+      "ID": 229426,
+      "status": "Pass",
+      "create_time": "2026-09-07T08:28:24.505Z",
+      "result": [
+        {
+          "testcase_id": "6a9a9befbf41025d6014321d",
+          "time": 4.47,
+          "best_time": 2.01,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143221",
+          "time": 6.12,
+          "best_time": 2.7,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143225",
+          "time": 12.23,
+          "best_time": 5.77,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143229",
+          "time": 18.82,
+          "best_time": 10.93,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014322d",
+          "time": 23.63,
+          "best_time": 13.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143231",
+          "time": 33.14,
+          "best_time": 13.17,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143235",
+          "time": 31.11,
+          "best_time": 18.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143239",
+          "time": 23.51,
+          "best_time": 11.54,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014323d",
+          "time": 51.92,
+          "best_time": 36.18,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143241",
+          "time": 7122.76,
+          "best_time": 3694.74,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143245",
+          "time": 85.45,
+          "best_time": 37.22,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143249",
+          "time": 126.32,
+          "best_time": 72.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014324d",
+          "time": 365.41,
+          "best_time": 329.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143251",
+          "time": 1060.76,
+          "best_time": 849.36,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143255",
+          "time": 455.06,
+          "best_time": 286.38,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        }
+      ],
+      "score_on_selected_reference": 43.06288466078575
+    },
+    "v2": {
+      "_id": "6a9e76e1bf41025d60096362",
+      "ID": 229487,
+      "status": "Pass",
+      "create_time": "2026-09-07T08:33:37.461Z",
+      "result": [
+        {
+          "testcase_id": "6a9a9befbf41025d6014321d",
+          "time": 3.77,
+          "best_time": 2.01,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143221",
+          "time": 5.44,
+          "best_time": 2.7,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143225",
+          "time": 8.85,
+          "best_time": 5.77,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143229",
+          "time": 17.36,
+          "best_time": 10.93,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014322d",
+          "time": 20.24,
+          "best_time": 13.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143231",
+          "time": 31.54,
+          "best_time": 13.17,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143235",
+          "time": 28.87,
+          "best_time": 18.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143239",
+          "time": 16.29,
+          "best_time": 11.54,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014323d",
+          "time": 45.69,
+          "best_time": 36.18,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143241",
+          "time": 6950.47,
+          "best_time": 3694.74,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143245",
+          "time": 47.63,
+          "best_time": 37.22,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143249",
+          "time": 74.14,
+          "best_time": 72.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014324d",
+          "time": 374.59,
+          "best_time": 329.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143251",
+          "time": 871.52,
+          "best_time": 849.36,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143255",
+          "time": 394.52,
+          "best_time": 286.38,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        }
+      ],
+      "score_on_selected_reference": 53.984611820228366
+    },
+    "v3": {
+      "_id": "6a9e78b0bf41025d600a193f",
+      "ID": 229563,
+      "status": "Pass",
+      "create_time": "2026-09-07T08:41:20.905Z",
+      "result": [
+        {
+          "testcase_id": "6a9a9befbf41025d6014321d",
+          "time": 4.09,
+          "best_time": 2.01,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143221",
+          "time": 5.65,
+          "best_time": 2.7,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143225",
+          "time": 9.44,
+          "best_time": 5.77,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143229",
+          "time": 17.64,
+          "best_time": 10.93,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014322d",
+          "time": 21.18,
+          "best_time": 13.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143231",
+          "time": 32.18,
+          "best_time": 13.17,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143235",
+          "time": 30.22,
+          "best_time": 18.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143239",
+          "time": 17.68,
+          "best_time": 11.54,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014323d",
+          "time": 46.6,
+          "best_time": 36.18,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143241",
+          "time": 6531.9,
+          "best_time": 3694.74,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143245",
+          "time": 47.47,
+          "best_time": 37.22,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143249",
+          "time": 63.1,
+          "best_time": 63.1,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014324d",
+          "time": 357.17,
+          "best_time": 329.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143251",
+          "time": 873.05,
+          "best_time": 849.36,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143255",
+          "time": 320.06,
+          "best_time": 286.38,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        }
+      ],
+      "score_on_selected_reference": 56.69559671487213
+    },
+    "v4": {
+      "_id": "6a9e7a73bf41025d600acdfa",
+      "ID": 229648,
+      "status": "Pass",
+      "create_time": "2026-09-07T08:48:51.991Z",
+      "result": [
+        {
+          "testcase_id": "6a9a9befbf41025d6014321d",
+          "time": 3.98,
+          "best_time": 2.01,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143221",
+          "time": 5.61,
+          "best_time": 2.7,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143225",
+          "time": 9.36,
+          "best_time": 5.77,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143229",
+          "time": 18.41,
+          "best_time": 10.93,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014322d",
+          "time": 21.12,
+          "best_time": 13.24,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143231",
+          "time": 32.09,
+          "best_time": 13.17,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143235",
+          "time": 29.9,
+          "best_time": 18.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143239",
+          "time": 17.46,
+          "best_time": 10.33,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014323d",
+          "time": 45.92,
+          "best_time": 36.18,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143241",
+          "time": 6524.56,
+          "best_time": 3694.74,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143245",
+          "time": 47.48,
+          "best_time": 37.22,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143249",
+          "time": 62.93,
+          "best_time": 62.93,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d6014324d",
+          "time": 357.59,
+          "best_time": 329.9,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143251",
+          "time": 866.13,
+          "best_time": 849.36,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        },
+        {
+          "testcase_id": "6a9a9befbf41025d60143255",
+          "time": 320.69,
+          "best_time": 286.38,
+          "precision_ratio": 1,
+          "testcase_status": "Pass"
+        }
+      ],
+      "score_on_selected_reference": 56.9733013621201
+    }
+  }
+}

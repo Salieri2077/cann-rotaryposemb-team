@@ -1,4 +1,12 @@
-# Current platform baseline — submission 224901
+# Current optimized implementation — submission 229648
+
+**15/15 Pass, 56.97 points** on the recorded reference. [Submission](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e7a73bf41025d600acdfa).
+
+Original 224901 on the same reference: 39.90. Source SHA-256: db2f8c4f62128e8c41c179bbf9a4aecad1636f0abf1e3a4017d1e3050c19d4d9.
+
+[Per-case timings, implementation, CPU checks and limitations](docs/optimization/README.md).
+
+# Previous platform baseline — submission 224901
 
 - Submitter: swlaird
 - Submitted: 2026-09-06 18:31:44 UTC (2026-09-07 02:31:44 Asia/Shanghai)

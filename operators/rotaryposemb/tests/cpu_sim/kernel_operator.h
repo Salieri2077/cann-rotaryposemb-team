@@ -148,6 +148,12 @@ template<class T> void Sub(LocalTensor<T>d,LocalTensor<T>a,LocalTensor<T>b,uint3
 template<class T> void Muls(LocalTensor<T>d,LocalTensor<T>a,T scale,uint32_t n) {
     for(uint32_t i=0;i<n;++i) d.SetValue(i,T(a.GetValue(i)*scale));
 }
+template<class T> void Adds(LocalTensor<T>d,LocalTensor<T>a,T v,uint32_t n) {
+    for(uint32_t i=0;i<n;++i) d.SetValue(i,T(a.GetValue(i)+v));
+}
+template<class T> void Abs(LocalTensor<T>d,LocalTensor<T>a,uint32_t n) {
+    for(uint32_t i=0;i<n;++i) d.SetValue(i,T(std::abs(a.GetValue(i))));
+}
 struct BinaryRepeatParams {
     uint8_t dstBlkStride=1,src0BlkStride=1,src1BlkStride=1;
     uint8_t dstRepStride=8,src0RepStride=8,src1RepStride=8;
@@ -160,6 +166,28 @@ template<class T> void Mul(LocalTensor<T>d,LocalTensor<T>a,LocalTensor<T>b,
             return r*rep*nblock+(j/nblock)*stride*nblock+j%nblock; };
         d.SetValue(idx(p.dstRepStride,p.dstBlkStride),
             T(a.GetValue(idx(p.src0RepStride,p.src0BlkStride))*
+              b.GetValue(idx(p.src1RepStride,p.src1BlkStride))));
+    }
+}
+template<class T> void Add(LocalTensor<T>d,LocalTensor<T>a,LocalTensor<T>b,
+        uint64_t mask,uint8_t rows,BinaryRepeatParams p) {
+    const size_t nblock=32/sizeof(T);
+    for(size_t r=0;r<rows;++r) for(size_t j=0;j<mask;++j) {
+        auto idx=[&](size_t rep,size_t stride) {
+            return r*rep*nblock+(j/nblock)*stride*nblock+j%nblock; };
+        d.SetValue(idx(p.dstRepStride,p.dstBlkStride),
+            T(a.GetValue(idx(p.src0RepStride,p.src0BlkStride))+
+              b.GetValue(idx(p.src1RepStride,p.src1BlkStride))));
+    }
+}
+template<class T> void Sub(LocalTensor<T>d,LocalTensor<T>a,LocalTensor<T>b,
+        uint64_t mask,uint8_t rows,BinaryRepeatParams p) {
+    const size_t nblock=32/sizeof(T);
+    for(size_t r=0;r<rows;++r) for(size_t j=0;j<mask;++j) {
+        auto idx=[&](size_t rep,size_t stride) {
+            return r*rep*nblock+(j/nblock)*stride*nblock+j%nblock; };
+        d.SetValue(idx(p.dstRepStride,p.dstBlkStride),
+            T(a.GetValue(idx(p.src0RepStride,p.src0BlkStride))-
               b.GetValue(idx(p.src1RepStride,p.src1BlkStride))));
     }
 }
