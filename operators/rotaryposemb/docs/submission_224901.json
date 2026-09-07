@@ -1,0 +1,99 @@
+{
+  "submission_id": "6a9db190bf41025d60db0a29",
+  "kernel_sha256": "ef06d7759dfddd0f5e2d281d5497acb900591d36086de4e59e13e80a71417194",
+  "ID": 224901,
+  "status": "Pass",
+  "create_time": "2026-09-06T18:31:44.020Z",
+  "result": [
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 4.69,
+      "best_time": 2.01
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 6.12,
+      "best_time": 3.99
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 15.68,
+      "best_time": 5.99
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 20.68,
+      "best_time": 10.93
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 25.12,
+      "best_time": 13.24
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 46.28,
+      "best_time": 13.5
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 36.99,
+      "best_time": 18.9
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 26.6,
+      "best_time": 12.21
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 58.37,
+      "best_time": 36.18
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 8495.74,
+      "best_time": 6422.19
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 81.57,
+      "best_time": 40.76
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 166.54,
+      "best_time": 72.34
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 364.74,
+      "best_time": 330.1
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 1054.86,
+      "best_time": 852.24
+    },
+    {
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "time": 452.71,
+      "best_time": 293.71
+    }
+  ]
+}
