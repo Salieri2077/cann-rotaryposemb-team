@@ -20,6 +20,11 @@ using half = _Float16;
 namespace sim {
 inline uint32_t block = 0;
 inline uint32_t launches = 0;
+inline uint32_t forcedLaunches = 0;
+inline uint32_t tinyLaunches = 0;
+inline uint64_t gmInCalls = 0, gmOutCalls = 0, gmInBytes = 0, gmOutBytes = 0;
+inline uint64_t tbufInitCalls = 0, tqueInitCalls = 0;
+inline uint64_t eventSets[6]{}, eventWaits[6]{};
 struct Region { uint8_t* start; size_t size; };
 inline std::vector<Region> regions;
 inline void checkGlobal(void* ptr, size_t bytes) {
@@ -34,12 +39,12 @@ inline void checkGlobal(void* ptr, size_t bytes) {
 namespace AscendC {
 enum class TPosition { VECIN, VECOUT, VECCALC };
 using QuePosition = TPosition;
-enum class HardEvent { S_V, MTE2_S, V_S };
+enum class HardEvent { S_V, MTE2_S, V_S, MTE2_V, V_MTE3, MTE3_S };
 using event_t = int;
 enum pipe_t { PIPE_V, PIPE_ALL };
 template<pipe_t> inline void PipeBarrier() {}
-template<HardEvent> inline void SetFlag(event_t) {}
-template<HardEvent> inline void WaitFlag(event_t) {}
+template<HardEvent E> inline void SetFlag(event_t) { ++sim::eventSets[static_cast<unsigned>(E)]; }
+template<HardEvent E> inline void WaitFlag(event_t) { ++sim::eventWaits[static_cast<unsigned>(E)]; }
 inline uint32_t GetBlockIdx() { return sim::block; }
 enum class RoundMode { CAST_NONE, CAST_RINT };
 struct Buffer { std::vector<uint8_t> bytes; explicit Buffer(size_t n): bytes(n, 0xa5) {} };
@@ -94,10 +99,10 @@ struct TPipe {
     size_t used = 0;
     void account(size_t n) { used+=n; if(used>192*1024) throw std::runtime_error("UB >192 KiB"); }
     template<TPosition P> void InitBuffer(TBuf<P>& b, size_t bytes) {
-        account(bytes); b.storage=std::make_shared<Buffer>(bytes);
+        ++sim::tbufInitCalls; account(bytes); b.storage=std::make_shared<Buffer>(bytes);
     }
     template<TPosition P,int D> void InitBuffer(TQue<P,D>& q,int num,size_t bytes) {
-        account(num*bytes); q.allocated.resize(num,false);
+        ++sim::tqueInitCalls; account(num*bytes); q.allocated.resize(num,false);
         for(int i=0;i<num;++i) q.buffers.push_back(std::make_shared<Buffer>(bytes));
     }
     event_t FetchEventID(HardEvent) { return 0; }
@@ -111,6 +116,7 @@ template<class T> struct DataCopyPadExtParams {
 };
 template<class T> void DataCopyPad(LocalTensor<T> dst,GlobalTensor<T> src,
         const DataCopyExtParams& cp,const DataCopyPadExtParams<T>& pad) {
+    ++sim::gmInCalls; sim::gmInBytes += uint64_t(cp.blockCount)*cp.blockLen;
     size_t padded=(cp.blockLen+(pad.leftPadding+pad.rightPadding)*sizeof(T)+31)/32*32;
     for(uint32_t row=0;row<cp.blockCount;++row) {
         size_t dbytes=row*(padded+cp.dstStride*32);
@@ -124,6 +130,7 @@ template<class T> void DataCopyPad(LocalTensor<T> dst,GlobalTensor<T> src,
 }
 template<class T> void DataCopyPad(GlobalTensor<T> dst,LocalTensor<T> src,
         const DataCopyExtParams& cp) {
+    ++sim::gmOutCalls; sim::gmOutBytes += uint64_t(cp.blockCount)*cp.blockLen;
     size_t padded=(cp.blockLen+31)/32*32;
     for(uint32_t row=0;row<cp.blockCount;++row) {
         size_t sbytes=row*(padded+cp.srcStride*32);
@@ -202,7 +209,7 @@ template<class T> void Copy(LocalTensor<T>d,LocalTensor<T>a,uint64_t mask,
 template<class D,class S> void Cast(LocalTensor<D>d,LocalTensor<S>s,RoundMode mode,uint32_t n) {
     for(uint32_t i=0;i<n;++i) {
         float v=static_cast<float>(s.GetValue(i));
-        if(mode==RoundMode::CAST_RINT && sizeof(D)==4 && !std::is_floating_point<D>::value)
+        if(mode==RoundMode::CAST_RINT && sizeof(D)==4)
             v=std::nearbyint(v);
         d.SetValue(i,static_cast<D>(v));
     }
@@ -214,5 +221,13 @@ template<class T,bool reuse=false> void Sin(LocalTensor<T>d,LocalTensor<T>a,
 template<class T,bool reuse=false> void Cos(LocalTensor<T>d,LocalTensor<T>a,
         LocalTensor<uint8_t>,uint32_t n) {
     for(uint32_t i=0;i<n;++i) d.SetValue(i,std::cos(a.GetValue(i)));
+}
+}
+
+namespace AscendC {
+template<class T, class U> void Axpy(LocalTensor<T> d, LocalTensor<U> s, const U& scale, const int32_t& n) {
+    for (int32_t i = 0; i < n; ++i)
+        d.SetValue(i, static_cast<T>(std::fma(static_cast<float>(s.GetValue(i)),
+            static_cast<float>(scale), static_cast<float>(d.GetValue(i)))));
 }
 }

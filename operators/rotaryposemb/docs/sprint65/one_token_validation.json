@@ -1,0 +1,16 @@
+{
+  "cases": 1191,
+  "tiny_selected": 621,
+  "generic_selected": 570,
+  "baseline_output": "all bitwise identical",
+  "strict_reference": "passed",
+  "copy_per_tiny_core": {
+    "input_calls": 2,
+    "input_bytes": 68,
+    "output_calls": 1,
+    "output_bytes": 64
+  },
+  "tiny_tbuf_init_per_core": 1,
+  "tiny_tque_init_per_core": 0,
+  "explicit_event_pair_counts": "all passed including wide PH V_S/S_V"
+}

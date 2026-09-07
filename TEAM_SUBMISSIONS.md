@@ -15,4 +15,10 @@
 本仓库此前的算子基线对应另一条通过记录（保留历史）：
 [6a9d8568bf41025d60d073e9](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9d8568bf41025d60d073e9)，15 个用例均为 Pass、precision_ratio=1，详见 [RESULTS.md](operators/rotaryposemb/RESULTS.md)。
 
-本轮性能优化采用提交 **229648**，15/15 Pass，记录得分 **56.97**。[结果](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e7a73bf41025d600acdfa)；[逐轮对比](operators/rotaryposemb/docs/optimization/README.md)。
+上一轮性能优化采用提交 **229648**，15/15 Pass，记录得分 **56.97**。[结果](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e7a73bf41025d600acdfa)；[逐轮对比](operators/rotaryposemb/docs/optimization/README.md)。
+
+
+
+## 排名冲刺更新
+
+当前纳入提交 **230746**：15/15 Pass，本轮基准 **10.41**。[评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e99f2bf41025d6015c51c)；[实验及逐点耗时](operators/rotaryposemb/docs/sprint65/README.md)。2026-09-07核查时第5名，达到前6目标，旧计分基准不可直接比较。

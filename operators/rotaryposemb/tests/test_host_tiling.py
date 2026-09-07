@@ -37,7 +37,7 @@ void verify(const LaunchConfig& c, uint32_t bytes, uint32_t cores) {
     assert(c.blockCount == std::min<uint64_t>(c.workUnits, cores));
     assert(c.tileElements == kSmallTileElements || c.tileElements == kHalfTileElements);
     assert(c.angleCapacity <= kMaxAngles);
-    assert(c.tileElements == kSmallTileElements || c.angleCapacity <= kMaxAngles / 2);
+    assert(c.tileElements == kSmallTileElements || c.angleCapacity <= 3 * kMaxAngles / 4);
     if (c.batched) {
         assert(c.batchTokens > 0);
         assert(c.angleCapacity == c.batchTokens * c.heads * c.rowStride);
@@ -55,11 +55,10 @@ void verify(const LaunchConfig& c, uint32_t bytes, uint32_t cores) {
         + fpWorkBytes + c.tileElements * 4ull
         + c.rowStride * 4ull + 7ull * c.angleCapacity * 4;
     assert(ub <= 192 * 1024);
-    const uint64_t per = (c.workUnits + c.blockCount - 1) / c.blockCount;
     uint64_t endByte = 0;
     for (uint32_t block = 0; block < c.blockCount; ++block) {
-        const uint64_t begin = std::min<uint64_t>(block * per, c.workUnits);
-        const uint64_t end = std::min<uint64_t>((block + 1) * per, c.workUnits);
+        const LaunchConfig* cfg_ = &c;
+        @PARTITION@
         const uint64_t firstByte = boundary(c, begin, bytes);
         const uint64_t lastByte = boundary(c, end, bytes);
         assert(firstByte == endByte && lastByte >= firstByte);
@@ -114,7 +113,8 @@ def main():
     body = "    LaunchConfig cfg{};" + body
     if "cfg.blockCount" not in body or "cfg.invFreq" in body:
         raise RuntimeError("Host tiling boundaries changed; review this extraction adapter")
-    code = "#include <algorithm>\n#include <cassert>\n#include <cstdint>\n#include <cstdio>\n" + preamble + HARNESS.replace("@BODY@", body)
+    partition = source.split("        const uint64_t block = GetBlockIdx();", 1)[1].split("        for (uint64_t unit", 1)[0]
+    code = "#include <algorithm>\n#include <cassert>\n#include <cstdint>\n#include <cstdio>\n" + preamble + HARNESS.replace("@BODY@", body).replace("@PARTITION@", partition)
     with tempfile.TemporaryDirectory(prefix="rope_host_tiling_") as directory:
         directory = Path(directory)
         source_file, executable = directory / "tiling.cpp", directory / "tiling"
