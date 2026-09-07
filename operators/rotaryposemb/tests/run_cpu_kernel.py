@@ -9,6 +9,7 @@ import argparse
 import ctypes
 import importlib.util
 import json
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -20,14 +21,49 @@ SIM = ROOT / "tests" / "cpu_sim"
 def build():
     directory = Path(tempfile.mkdtemp(prefix="rope_cpu_sim_"))
     source = (ROOT / "kernel.asc").read_text()
-    for dtype in ("float", "half"):
-        old = (f"rotary_pos_emb_draft<{dtype}><<<cfg.blockCount, nullptr, stream>>>"
-               "(x, positions, y, cfg);")
-        new = ("{ ++sim::launches; for (sim::block=0; sim::block<cfg.blockCount; ++sim::block) "
-               f"rotary_pos_emb_draft<{dtype}>(x, positions, y, cfg); }}")
-        if source.count(old) != 1:
-            raise RuntimeError("Kernel launch changed; update this transparent CPU adapter")
-        source = source.replace(old, new)
+    launch = re.compile(
+        r"rotary_pos_emb_draft<(?P<dtype>float|half)"
+        r"(?P<fixed>,\s*(?:16|32|64|128|256|512))?"
+        r"(?P<forced>,\s*true)?>"
+        r"<<<cfg\.blockCount, nullptr, stream>>>"
+        r"\(x, positions, y, (?P<config>cfg|compact)\);")
+    matches = list(launch.finditer(source))
+    combinations = [(m["dtype"], (m["fixed"] or "").replace(" ", ""),
+                     bool(m["forced"])) for m in matches]
+    if len(set(combinations)) != len(matches):
+        raise RuntimeError("Duplicate CPU-adapted launch variants")
+    generic = {(dtype, fixed) for dtype, fixed, forced in combinations if not forced}
+    dimensions = frozenset(fixed for _, fixed in generic)
+    supported = [frozenset(x) for x in (
+        ("",), ("", ",64", ",128"), ("", ",16", ",32", ",64", ",128"),
+        ("", ",16", ",32", ",64", ",128", ",256", ",512"))]
+    if dimensions not in supported:
+        raise RuntimeError("Unexpected static dimension launch set")
+    if generic != {(dtype, fixed) for dtype in ("float", "half") for fixed in dimensions}:
+        raise RuntimeError("A dtype/static dimension launch is missing")
+    forced = {(dtype, fixed) for dtype, fixed, force in combinations if force}
+    if forced and forced != {(dtype, fixed) for dtype in ("float", "half")
+                             for fixed in (",32", ",64")}:
+        raise RuntimeError("Expected all four D32/D64 forced-batched variants")
+    def cpu_launch(match):
+        dtype, fixed = match["dtype"], match["fixed"] or ""
+        forced = match["forced"] or ""
+        config = match["config"]
+        count_forced = "++sim::forcedLaunches; " if forced else ""
+        return ("{ ++sim::launches; " + count_forced +
+                "for (sim::block=0; sim::block<cfg.blockCount; ++sim::block) "
+                f"rotary_pos_emb_draft<{dtype}{fixed}{forced}>(x, positions, y, {config}); }}")
+    source = launch.sub(cpu_launch, source)
+    tiny_launch = "rotary_pos_emb_one_token<<<tinyBlocks, nullptr, stream>>>(x, positions, y, tiny);"
+    tiny_expected = "class OneTokenKernel" in source
+    if source.count(tiny_launch) != int(tiny_expected):
+        raise RuntimeError("Unexpected one-token launch count")
+    source = source.replace(tiny_launch,
+        "{ ++sim::launches; ++sim::tinyLaunches; "
+        "for (sim::block=0; sim::block<tinyBlocks; ++sim::block) "
+        "rotary_pos_emb_one_token(x, positions, y, tiny); }")
+    if "<<<" in source:
+        raise RuntimeError("Unadapted launch syntax remains")
     (directory / "kernel_cpu.inc").write_text(source)
     lib = directory / "kernel_sim.so"
     subprocess.run([
@@ -42,6 +78,15 @@ def build():
     fn.argtypes = [ctypes.c_void_p] * 3 + [ctypes.c_int64] * 4 + [
         ctypes.c_int32, ctypes.c_int64, ctypes.c_float]
     fn.restype = ctypes.c_int
+    fn.tiny_count=dll.sim_tiny_count
+    fn.tiny_count.argtypes=[]
+    fn.tiny_count.restype=ctypes.c_uint32
+    fn.tiny_stats=dll.sim_tiny_stats
+    fn.tiny_stats.argtypes=[ctypes.c_void_p]
+    fn.tiny_stats.restype=None
+    fn.forced_count=dll.sim_forced_count
+    fn.forced_count.argtypes=[]
+    fn.forced_count.restype=ctypes.c_uint32
     reduce = dll.sim_reduce
     reduce.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_uint32]
     reduce.restype = None

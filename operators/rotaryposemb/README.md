@@ -1,55 +1,57 @@
 # RotaryPosEmb 团队算子
 
-当前内核为 swlaird 的提交 **229648**，平台 **15/15 Pass**，记录得分 **56.97**。
-[评测结果](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e7a73bf41025d600acdfa)。原版在同一计分基准下为 39.90 分（历史 43.58）。
-[完整优化实验与逐点耗时](docs/optimization/README.md)；[历次结果](RESULTS.md)。
+当前内核对应提交 **230746**，平台 **15/15 Pass**，本轮基准分数 **10.41**。[正式评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e99f2bf41025d6015c51c)；[本轮逐项实验](docs/sprint65/README.md)。此前 56.97 分采用另一组 best_time，不能直接与本轮分数比较。2026-09-07本次核查第5名，已达到前6目标；排名会随其他提交变化。
 
 ## 实现
 
-- 保留官方 run_kernel 签名与 FP16/FP32 输入，按前后半维配对，FP32 中间计算。
-- 跨 token 批量生成联合 Sin/Cos，小 head 在三角计算后广播系数；双缓冲结合自适应多核分块和 2K/4K tile。
-- 对齐行连续 DMA 读写，非对齐行使用 DataCopyPad；按完整 32B 边界分配跨核输出，使用 64 位 GM 偏移。
-- theta>=1 使用三段 2π 约减；theta<1 使用整数 Payne–Hanek 约减，再用联合 FP32 多项式生成 Sin/Cos。
-- 每次调用恰好启动一个核函数，核参数总计 1472B，静态断言限制为 1536B。
-- 小维度直接传 FP32 频率；大维度用每三项一个起点、两个 int16 位型残差无损编码，host/device 使用相同整数 FP32 乘法预测，恢复原始频率位型。无额外 GM 频率表分配或拷贝。
-- 提交源码不包含调试打印。打包前检查平台已知禁用标识符；该检查不等同于完整平台审核规则。
+小张量专用路径：FP32、D16、H1且token数不超过可用核心数时，每核处理完整token；仅传36B配置，使用416B临时存储及显式DMA事件，省去通用队列。其他输入继续使用通用实现。第一个测试点由此前最好版本的3.42降至2.99，约下降12.6%。[专项设计与验证](docs/sprint65/one_token_design.md)。
 
-7 个官方支撑文件与原仓库逐字节一致，golden 没有修改。原队友版本保留在 Git 历史，其评测记录保留于 RESULTS.md。
+- 保留官方 FP16/FP32 输入、前后半维旋转、FP32 中间计算与 run_kernel 签名。
+- 跨 token 批量计算联合 Sin/Cos，低 head 广播系数；共享 head 使用整行向量计算和双缓冲。
+- D16/32/64/128 使用 136/168/232/360B 参数，其他维度保持不超过 1472B；每次调用恰好一次核函数启动。
+- 前两段范围约简用精确乘积 Axpy；大角度仍走整数 Payne–Hanek，保持原精度阈值。
+- 对齐行使用连续 DMA，低 head 的 D128 及满足行数约束的 D16 FP32 合并搬运；其余保留带填充布局。
+- 按完整32B边界分配跨核输出、64位GM地址；4K I/O tile的角度上限1536，最大UB分配192800B。
+- 频率由每次调用的 theta 重新生成，宽维度采用无损位型残差编码，正常数乘法采用精确整数快速路径。
 
-## CPU 检查
+分派只使用公开 shape、dtype、theta 和对齐条件。7个官方只读文件逐字节一致；golden与精度阈值未改动。
 
-在仓库根目录执行；Python 脚本需要 NumPy，实际内核模型与分块检查还需要 g++：
+## 验证
 
-~~~bash
-node operators/rotaryposemb/scripts/rotary_regression.cjs
-python3 -m unittest discover -s operators/rotaryposemb/tests -p 'test_*.py'
-python3 operators/rotaryposemb/tests/test_host_tiling.py
-python3 operators/rotaryposemb/tests/run_cpu_kernel.py
-python3 operators/rotaryposemb/tests/check_contiguous.py
-python3 operators/rotaryposemb/tests/check_lowh.py
-python3 operators/rotaryposemb/tests/check_joint_sincos.py
-python3 operators/rotaryposemb/tools/check_template.py
-~~~
+在本目录执行（Python需要NumPy，实际内核模型还需要g++）：
 
-现有 Node 回归保留用于旧版算法与索引模型；新增 Python/C++ 模型执行当前 kernel.asc 的实际主体，检查索引、搬运边界、队列容量、数值结果和每次恰好一次启动。CPU 模型执行当前多项式的实际运算主体，但不能替代 CANN 编译、异步流水及性能验证。
+```sh
+python3 -m unittest discover -s tests -p 'test_*.py'
+python3 tests/test_host_tiling.py
+python3 tests/run_cpu_kernel.py
+python3 tests/check_contiguous.py
+python3 tests/check_lowh.py
+python3 tests/check_midh.py
+python3 tests/check_window.py
+python3 tests/check_ub_capacity.py
+python3 tests/check_joint_sincos.py
+python3 tests/check_one_token.py
+python3 tests/check_cpp14.py
+python3 tools/check_template.py
+python3 tools/package_submission.py
+```
 
-与相同 host powf 频率的独立参考相比，230/230 用例及额外 240 组布局用例通过；分块检查覆盖 1,812,272 种配置。本机 NumPy 2.4.4 的 SIMD power 舍入与 host powf 存在差异，230 例中 107 例超过本地严格阈值；该诊断单独报告，未改 golden 或放宽阈值。本次真实平台 15 个测试点全部通过。
+实际 kernel 主体经透明启动语法适配后运行CPU模型，共998个数值/布局用例，另1191个专项用例检查小张量分派、精度、DMA范围和事件数量；host分块覆盖1,812,272种配置，包含跨核32B对齐、范围覆盖和UB预算。全部11个设备入口变体通过C++14语法检查。标量约简249,042样本、联合三角函数17,000,008点扫描通过。模型检查地址、队列容量及每次一次launch，不模拟设备异步流水或性能。
 
-## NPU 验证与打包
+本机NumPy2.4.4 SIMD power与host powf舍入不同，230例中107例超过本地严格阈值，该诊断独立保留；同powf独立参考通过。最终平台正确性以15点正式结果为依据。
 
-目标环境：CANN 9.0、dav-2201。平台记录没有单独提供硬件型号，本地没有 NPU/CANN 编译器；下面的独立 runner 尚未实机验证：
+## NPU与打包
 
-~~~bash
-cd operators/rotaryposemb
+目标为CANN9.0 / dav-2201，平台未独立报告具体硬件型号。本地没有CANN编译器或NPU；独立runner尚未实机验证。
+
+```sh
 source /usr/local/Ascend/ascend-toolkit/set_env.sh
 bash run.sh
 cmake -S tools -B build-npu -DNPU_ARCH=dav-2201
 cmake --build build-npu -j4
 python3 tools/npu_validate.py --quick
-python3 tools/npu_validate.py
-python3 tools/package_submission.py
-~~~
+```
 
-官方 run.sh 会重建 build 并运行公开 case 0。扩展工具提供 208 个本地生成用例（非隐藏测试集），可用 --generate-only 仅生成输入；runner 的 host_launch_batch_average_us 包含 host tiling、launch 和批次同步，不是纯设备时间。
+官方run.sh运行公开case0；扩展runner可生成208个本地用例，其host_launch_batch_average_us含主机分块、启动及同步，不代表纯设备时间。打包产物位于忽略的dist目录，只提交kernel.asc。
 
-打包产物在忽略的 dist/ 中，仅提交 kernel.asc。仓库仅纳入明确选取的验证/打包工具，不包含本地认证客户端、会话、账号文件或生成数据。
+仓库仅包含选取的算子与验证工具；历史基线与实验回退结果见[RESULTS](RESULTS.md)。

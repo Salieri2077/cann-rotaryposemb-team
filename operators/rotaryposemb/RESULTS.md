@@ -1,10 +1,28 @@
-# Current optimized implementation — submission 229648
+# Current implementation — submission 230746
 
-**15/15 Pass, 56.97 points** on the recorded reference. [Submission](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e7a73bf41025d600acdfa).
+**15/15 Pass, 10.4053 points** on the captured reference; verified rank5 on2026-09-07. [Submission](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e99f2bf41025d6015c51c).
 
-Original 224901 on the same reference: 39.90. Source SHA-256: db2f8c4f62128e8c41c179bbf9a4aecad1636f0abf1e3a4017d1e3050c19d4d9.
+Reference times changed during this sprint. The previous 229648 score of 56.97 uses a different reference and is retained in [earlier experiments](docs/optimization/README.md). [Current experiment history](docs/sprint65/README.md) records improvements and regressions without changing the golden or tolerances.
 
-[Per-case timings, implementation, CPU checks and limitations](docs/optimization/README.md).
+| Case | time | best_time | Status |
+| --- | ---: | ---: | --- |
+| 1 | 2.99 | 1.18 | Pass |
+| 2 | 5.52 | 0.57 | Pass |
+| 3 | 8.43 | 0.58 | Pass |
+| 4 | 17.04 | 0.59 | Pass |
+| 5 | 19.31 | 0.58 | Pass |
+| 6 | 31.08 | 0.57 | Pass |
+| 7 | 28.75 | 0.59 | Pass |
+| 8 | 15.86 | 0.61 | Pass |
+| 9 | 45.46 | 0.57 | Pass |
+| 10 | 6499.94 | 0.57 | Pass |
+| 11 | 45.51 | 0.6 | Pass |
+| 12 | 57.99 | 0.59 | Pass |
+| 13 | 349.69 | 0.56 | Pass |
+| 14 | 869.44 | 0.55 | Pass |
+| 15 | 289.44 | 0.56 | Pass |
+
+API time values are preserved without asserting units. CANN9.0 / dav-2201; exact hardware model not independently reported. No local NPU. CPU checks include 998 actual-kernel configurations and 1,812,272 host tiling configurations; numerical-model limitations are documented in the README.
 
 # Previous platform baseline — submission 224901
 

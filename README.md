@@ -22,7 +22,7 @@
 node operators/rotaryposemb/scripts/rotary_regression.cjs
 ```
 
-此回归仅验证 CPU 数值与索引模型，不替代 CANN 编译或 NPU 评测。当前优化提交 229648 的平台记录为 15/15 Pass、记录得分 56.97，详见 [结果](operators/rotaryposemb/RESULTS.md)。7 个支撑文件已用官方 authenticated `/package` 解压文件逐字节恢复为原始 UTF-8，修复此前 PowerShell 解码保存造成的导入乱码，不是手动修改 golden。本地尚未进行 CANN 编译或 NPU 验证，不能将 `run.sh` 视为已验证可运行，详见 [算子说明](operators/rotaryposemb/README.md)。
+此回归仅验证 CPU 数值与索引模型，不替代 CANN 编译或 NPU 评测。当前优化提交230746的正式记录为15/15 Pass、本轮基准得分10.41、核查时第5名（与此前56.97分基准不同），详见 [结果](operators/rotaryposemb/RESULTS.md)。7 个支撑文件已用官方 authenticated `/package` 解压文件逐字节恢复为原始 UTF-8，修复此前 PowerShell 解码保存造成的导入乱码，不是手动修改 golden。本地尚未进行 CANN 编译或 NPU 验证，不能将 `run.sh` 视为已验证可运行，详见 [算子说明](operators/rotaryposemb/README.md)。
 
 ## 安全与许可
 

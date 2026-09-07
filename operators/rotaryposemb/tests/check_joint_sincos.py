@@ -17,7 +17,15 @@ def eval_trig(x):
  return (x*w)*poly(SC,z),u*poly(CC,z)
 def reduce(x):
  q=np.rint(x*F(.15915494309189533577))
- return ((x-q*F(6.28125))-q*F(.001934051513671875))-q*F(1.2556659143567085e-6)
+ # These first two products are exact, so FP64 addition followed by FP32
+ # rounding emulates fused Axpy and must equal the original separate stages.
+ first=F(x.astype(np.float64)-q.astype(np.float64)*np.float64(F(6.28125)))
+ second=F(first.astype(np.float64)-q.astype(np.float64)*np.float64(F(.001934051513671875)))
+ original_first=x-q*F(6.28125)
+ original_second=original_first-q*F(.001934051513671875)
+ assert np.array_equal(first.view(np.uint32),original_first.view(np.uint32))
+ assert np.array_equal(second.view(np.uint32),original_second.view(np.uint32))
+ return second-q*F(1.2556659143567085e-6)
 def measure(x,full=False):
  r=reduce(x) if full else x
  s,c=eval_trig(r)
@@ -29,6 +37,9 @@ def measure(x,full=False):
 parser=argparse.ArgumentParser(description="Validate FP32 joint sin/cos over 17 million angles")
 parser.add_argument('--report',type=Path)
 args=parser.parse_args()
+q=np.arange(20862,dtype=F)
+for c in (F(6.28125),F(.001934051513671875)):
+ assert np.array_equal((q*c).astype(np.float64),q.astype(np.float64)*np.float64(c))
 records={}
 records["uniform_reduced"]=measure(np.linspace(-np.pi,np.pi,4000001,dtype=F))
 rng=np.random.default_rng(72629)
@@ -39,7 +50,7 @@ random=np.concatenate([rng.uniform(-np.pi,np.pi,4000000).astype(F),
 records["random_reduced"]=measure(random)
 records["uniform_raw"]=measure(np.linspace(0,131072,4000001,dtype=F),True)
 records["random_raw"]=measure(rng.uniform(0,131072,4000000).astype(F),True)
-report=dict(description="Separate FP32 Mul/Add emulation; float64 NumPy trig reference; no NPU timing or async validation",
+report=dict(description="First two reduction stages emulate fused exact-product Axpy and assert bitwise equality to separate Mul/Sub; other operations remain separate FP32; no NPU timing or async validation",
  coeff_sin_descending=SC,coeff_cos_descending=CC,cases=records)
 assert all(v["sin_exceeds_3e_7"] == 0 and v["cos_exceeds_3e_7"] == 0 for v in records.values())
 if args.report:

@@ -1,0 +1,41 @@
+{
+  "captured_utc": "2026-09-07T11:11:23.784937+00:00",
+  "ranking_url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/ranking",
+  "selected": {
+    "rank": 5,
+    "score": 10.41,
+    "submission_id": "6a9e99f2bf41025d6015c51c"
+  },
+  "top6": [
+    {
+      "rank": 1,
+      "score": 10.48,
+      "submission_id": "6a9e0f8fbf41025d60e933a3"
+    },
+    {
+      "rank": 2,
+      "score": 10.46,
+      "submission_id": "6a9d0ac9bf41025d60a7d73f"
+    },
+    {
+      "rank": 3,
+      "score": 10.44,
+      "submission_id": "6a9d3dcfbf41025d60bbcbe3"
+    },
+    {
+      "rank": 4,
+      "score": 10.43,
+      "submission_id": "6a9e8ababf41025d6010dea5"
+    },
+    {
+      "rank": 5,
+      "score": 10.41,
+      "submission_id": "6a9e99f2bf41025d6015c51c"
+    },
+    {
+      "rank": 6,
+      "score": 10.38,
+      "submission_id": "6a9e6c4abf41025d600555e7"
+    }
+  ]
+}
