@@ -1,0 +1,52 @@
+{
+  "description": "Separate FP32 Mul/Add emulation; float64 NumPy trig reference; no NPU timing or async validation",
+  "coeff_sin_descending": [
+    2.580631073747187e-07,
+    2.1560553672307594e-05,
+    0.001160294554180584,
+    0.032251527327119334,
+    0.3183098865345572
+  ],
+  "coeff_cos_descending": [
+    2.3889217773452806e-08,
+    2.45780557013557e-06,
+    0.0001726966512531477,
+    0.0069616269567191625,
+    0.12900613822529625,
+    0.6366197723507009
+  ],
+  "cases": {
+    "uniform_reduced": {
+      "count": 4000001,
+      "sin_abs_error": 2.115420918435973e-07,
+      "cos_abs_error": 1.604831497692416e-07,
+      "max_reduced_abs": 3.1415927410125732,
+      "sin_exceeds_3e_7": 0,
+      "cos_exceeds_3e_7": 0
+    },
+    "random_reduced": {
+      "count": 5000006,
+      "sin_abs_error": 2.1218101853293092e-07,
+      "cos_abs_error": 1.6213055420433164e-07,
+      "max_reduced_abs": 3.1415927410125732,
+      "sin_exceeds_3e_7": 0,
+      "cos_exceeds_3e_7": 0
+    },
+    "uniform_raw": {
+      "count": 4000001,
+      "sin_abs_error": 2.5098687184144097e-07,
+      "cos_abs_error": 2.0193546490521186e-07,
+      "max_reduced_abs": 3.150496244430542,
+      "sin_exceeds_3e_7": 0,
+      "cos_exceeds_3e_7": 0
+    },
+    "random_raw": {
+      "count": 4000000,
+      "sin_abs_error": 2.5382067947443687e-07,
+      "cos_abs_error": 2.0038957004864244e-07,
+      "max_reduced_abs": 3.1528584957122803,
+      "sin_exceeds_3e_7": 0,
+      "cos_exceeds_3e_7": 0
+    }
+  }
+}

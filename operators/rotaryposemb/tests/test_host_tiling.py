@@ -35,22 +35,25 @@ void verify(const LaunchConfig& c, uint32_t bytes, uint32_t cores) {
     assert(c.tokens > 0 && c.workUnits > 0 && c.blockCount > 0);
     assert(c.rowStride >= c.halfDim && c.rowStride * bytes % 32 == 0);
     assert(c.blockCount == std::min<uint64_t>(c.workUnits, cores));
+    assert(c.tileElements == kSmallTileElements || c.tileElements == kHalfTileElements);
     assert(c.angleCapacity <= kMaxAngles);
+    assert(c.tileElements == kSmallTileElements || c.angleCapacity <= kMaxAngles / 2);
     if (c.batched) {
         assert(c.batchTokens > 0);
         assert(c.angleCapacity == c.batchTokens * c.heads * c.rowStride);
-        assert(c.angleCapacity <= kHalfTileElements);
+        assert(c.angleCapacity <= c.tileElements);
     } else {
         assert(c.tokenGrain > 0 && c.headGroup > 0 && c.groups > 0);
         assert(c.tileHeads > 0 && c.tileHeads <= kMaxHeadRepeats && c.tileHeads <= 255);
-        assert(c.tileHeads * c.rowStride <= kHalfTileElements);
+        assert(c.tileHeads * c.rowStride <= c.tileElements);
         assert(c.groups == (c.heads + c.headGroup - 1) / c.headGroup);
         assert(c.groups == 1 || (c.tokenGrain == 1 && c.dim * bytes % 32 == 0));
     }
     // Mirrors only the allocation *accounting*: values come from actual host cfg.
-    const uint64_t ub = 8ull * kHalfTileElements * bytes + kPositionCache * 4ull
-        + 4ull * kHalfTileElements * 4 + kHalfTileElements * 4ull
-        + c.rowStride * 4ull + 7ull * c.angleCapacity * 4 + 64 * 1024;
+    const uint64_t fpWorkBytes = bytes == 4 ? 32ull : 4ull * c.tileElements * 4;
+    const uint64_t ub = 8ull * c.tileElements * bytes + kPositionCache * 4ull
+        + fpWorkBytes + c.tileElements * 4ull
+        + c.rowStride * 4ull + 7ull * c.angleCapacity * 4;
     assert(ub <= 192 * 1024);
     const uint64_t per = (c.workUnits + c.blockCount - 1) / c.blockCount;
     uint64_t endByte = 0;
