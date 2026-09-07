@@ -1,6 +1,6 @@
 # RotaryPosEmb 团队算子
 
-当前内核对应提交 **233563**，两轮平台评测均 **15/15 Pass**。相对同一时段复测的原版，按两轮逐点均值计算，耗时比几何平均下降 **3.00%**，总耗时下降 **0.37%**；仅各两轮，仍有测量波动。[正式评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ee06fc76b321ca6ab38e6)；[流水线、布局和数学方案的实测对比](docs/pipeline-experiments/README.md)。本轮以超越自身耗时为目标。
+当前内核对应提交 **233563**，两轮平台评测均 **15/15 Pass**。相对同一时段复测的原版，按两轮逐点均值计算，耗时比几何平均下降 **3.00%**，总耗时下降 **0.37%**；仅各两轮，仍有测量波动。[正式评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ee06fc76b321ca6ab38e6)；[流水线、布局和数学方案的实测对比](docs/pipeline-experiments/README.md)。本轮以超越自身耗时为目标。 [当前组合、瓶颈证据与下一轮实验](docs/pipeline-experiments/BOTTLENECKS.md)。
 
 ## 实现
 

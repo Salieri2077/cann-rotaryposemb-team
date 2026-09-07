@@ -2,6 +2,8 @@
 
 2026-09-07 至 2026-09-08（Asia/Shanghai）。本轮仅比较自身耗时，不使用排名或 best_time。最终保留 positions 单缓存直接同步版，源码 SHA-256 `1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8`，两次正式评测均 15/15 Pass，所有 precision_ratio=1。
 
+当前已保留的组合、已确认现象、源码疑点及下一轮验收方法见[瓶颈记录](BOTTLENECKS.md)。
+
 ## 保留结果与测量边界
 
 原版 A1=[233123](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ed64ec76b321ca6a7913e)、A2=[233505](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9edf1fc76b321ca6aac11d)，候选 P1=[233235](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ed8e9c76b321ca6a892ea)、P2=[233563](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ee06fc76b321ca6ab38e6)。原版源码来自 main 的 `cc254e4614501bf625e23390854779c6cd8b780b`，SHA-256 `3616b92cf7c5ed62916ebbd0432756192816b5081d20af72bbcf5e4c1bbc2c26`。两次原版提交与两次候选提交各自源码完全相同。
