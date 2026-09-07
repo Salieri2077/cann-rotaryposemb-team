@@ -1,0 +1,79 @@
+{
+  "bank": {
+    "actual_source_cases": 998,
+    "cpp14_variants": 11,
+    "independent_ub_configs": 36928,
+    "ub_max_fp32": 193568,
+    "ub_max_fp16": 193536
+  },
+  "position": {
+    "actual_source_main": 230,
+    "ub_cases": 96,
+    "baseline_bitwise_boundary_cases": 176,
+    "cpp14_variants": 11
+  },
+  "quarter": {
+    "actual_source_cases": 998,
+    "actual_angle_samples": 10168203,
+    "max_trig_abs_error": 1.241e-07,
+    "cpp14_variants": 11
+  },
+  "range": {
+    "actual_source_main": 230,
+    "target_cases": 210,
+    "angle_samples": 12563370,
+    "cpp14_variants": 11,
+    "npu_submitted": false
+  },
+  "ph_window": {
+    "actual_source_main": 230,
+    "target_cases": 248,
+    "angle_samples": 11044739,
+    "independent_integer_windows": 520446,
+    "cpp14_variants": 11
+  },
+  "position_double": {
+    "actual_source_main": 230,
+    "ub_cases": 96,
+    "baseline_bitwise_boundary_cases": 264,
+    "all_loaded_positions_consumed": true,
+    "ub_max": 193056,
+    "cpp14_variants": 11
+  },
+  "position_padded": {
+    "actual_source_main": 230,
+    "ub_cases": 96,
+    "cpp14_variants": 11
+  },
+  "final_retained": {
+    "source_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+    "actual_source_cases": 998,
+    "case_breakdown": {
+      "main": 230,
+      "contiguous": 96,
+      "lowh": 144,
+      "midh": 288,
+      "window": 144,
+      "ub": 96
+    },
+    "layout_schedule_checks": [
+      768,
+      3840,
+      3840
+    ],
+    "one_token_cases": 1191,
+    "one_token_baseline_bitwise": "passed",
+    "node_regression_cases": 11160,
+    "tool_unittests": 10,
+    "cpp14_variants": 11,
+    "official_readonly_files": 7,
+    "scalar_reduction_samples": 249042,
+    "npu_runs": 2,
+    "npu_cases_each": 15,
+    "npu_precision_ratio_all": 1,
+    "numpy_version": "2.4.4",
+    "preexisting_numpy_power_diagnostic_failures": 107,
+    "same_powf_reference": "passed",
+    "cpu_model_limits": "Synchronous model; checks event totals, addresses, bounds and arithmetic, not asynchronous scheduling or hardware performance"
+  }
+}

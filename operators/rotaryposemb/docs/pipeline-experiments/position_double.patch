@@ -1,0 +1,127 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -385,7 +385,10 @@
+         const uint32_t ioBytes = 2 * cfg_->tileElements * sizeof(T);
+         pipe_.InitBuffer(inputQueue_, 2, ioBytes);
+         pipe_.InitBuffer(outputQueue_, 2, ioBytes);
+-        pipe_.InitBuffer(positionQueue_, 1, kPositionCache * sizeof(int32_t));
++        pipe_.InitBuffer(positionBuffer_, 2 * kPositionCache * sizeof(int32_t));
++        positionLocal_ = positionBuffer_.Get<int32_t>();
++        positionRecycleEvent_ =
++            static_cast<event_t>(pipe_.FetchEventID(HardEvent::S_MTE2));
+         // float operands already reside in input/output queues; only half needs conversion storage.
+         const uint32_t fpWorkBytes = sizeof(T) == sizeof(float)
+             ? 32u : 4 * cfg_->tileElements * sizeof(float);
+@@ -462,6 +465,16 @@
+         const uint64_t extra = cfg_->workUnits % cfg_->blockCount;
+         const uint64_t begin = block * perBlock + (block < extra ? block : extra);
+         const uint64_t end = begin + perBlock + (block < extra ? 1u : 0u);
++        if (begin == end) return;
++        // This ready event stays outstanding across arithmetic API calls.
++        // Reserve its ID rather than borrowing a temporary FetchEventID.
++        positionReadyEvent_ =
++            static_cast<event_t>(pipe_.AllocEventID<HardEvent::MTE2_S>());
++        // A core visits a continuous token interval. Head groups may repeat a
++        // token; split-head units have tokenGrain == 1 and never move backwards.
++        positionOwnedEnd_ = cfg_->batched ? end * cfg_->batchTokens
++            : ((end - 1) / cfg_->groups + 1) * cfg_->tokenGrain;
++        if (positionOwnedEnd_ > cfg_->tokens) positionOwnedEnd_ = cfg_->tokens;
+         for (uint64_t unit = begin; unit < end; ++unit) {
+             if (cfg_->batched) {
+                 ProcessTokenBatch(unit * cfg_->batchTokens);
+@@ -498,32 +511,62 @@
+                 }
+             }
+         }
+-        if (positionLive_) positionQueue_.FreeTensor(positionLocal_);
++        // Normally every prefetched interval is consumed by this core. Keep
++        // the ready event balanced if a future traversal skips a final cache.
++        if (positionPrefetchPending_) WaitFlag<HardEvent::MTE2_S>(positionReadyEvent_);
++        pipe_.ReleaseEventID<HardEvent::MTE2_S>(positionReadyEvent_);
+     }
+ 
+ private:
+     __aicore__ inline int32_t Position(uint64_t token)
+     {
+-        if (!positionLive_ || token < cacheStart_ || token >= cacheEnd_) {
+-            if (positionLive_) positionQueue_.FreeTensor(positionLocal_);
++        if (!positionLive_) {
+             cacheStart_ = token;
+             uint32_t count = kPositionCache;
+-            if (cfg_->tokens - token < count) count = cfg_->tokens - token;
+-            cacheEnd_ = cacheStart_ + count;
+-            auto p = positionQueue_.template AllocTensor<int32_t>();
++            if (positionOwnedEnd_ - token < count) count = positionOwnedEnd_ - token;
++            cacheEnd_ = token + count;
+             DataCopyExtParams cp{1, count * uint32_t(sizeof(int32_t)), 0, 0, 0};
+             DataCopyPadExtParams<int32_t> pad{true, 0, 0, 0};
+-            DataCopyPad(p, positions_[token], cp, pad);
+-            positionQueue_.EnQue(p);
+-            positionLocal_ = positionQueue_.template DeQue<int32_t>();
+-            // DeQue orders the vector pipeline; this read is on the scalar pipe.
+-            const event_t event =
+-                static_cast<event_t>(pipe_.FetchEventID(HardEvent::MTE2_S));
+-            SetFlag<HardEvent::MTE2_S>(event);
+-            WaitFlag<HardEvent::MTE2_S>(event);
++            DataCopyPad(positionLocal_, positions_[token], cp, pad);
++            SetFlag<HardEvent::MTE2_S>(positionReadyEvent_);
++            WaitFlag<HardEvent::MTE2_S>(positionReadyEvent_);
+             positionLive_ = true;
++            PrefetchPositions();
++        } else if (token >= cacheEnd_) {
++            // Position visits advance by zero (another head group) or one.
++            // Therefore this token lies in the already-prefetched next cache.
++            WaitFlag<HardEvent::MTE2_S>(positionReadyEvent_);
++            positionPrefetchPending_ = false;
++            cacheStart_ = cacheEnd_;
++            cacheEnd_ = positionPrefetchEnd_;
++            positionSlot_ ^= 1u;
++            positionLocal_ = positionBuffer_.Get<int32_t>()[positionSlot_ * kPositionCache];
++            positionNeedsRecycle_ = true;
++            PrefetchPositions();
+         }
+         return positionLocal_.GetValue(token - cacheStart_);
++    }
++
++    __aicore__ inline void PrefetchPositions()
++    {
++        if (cacheEnd_ >= positionOwnedEnd_) return;
++        uint32_t count = kPositionCache;
++        if (positionOwnedEnd_ - cacheEnd_ < count) count = positionOwnedEnd_ - cacheEnd_;
++        const uint32_t nextSlot = positionSlot_ ^ 1u;
++        auto next = positionBuffer_.Get<int32_t>()[nextSlot * kPositionCache];
++        if (positionNeedsRecycle_) {
++            // The other slot held the previous cache. Its final Scalar read
++            // must finish before MTE2 reuses that allocation.
++            SetFlag<HardEvent::S_MTE2>(positionRecycleEvent_);
++            WaitFlag<HardEvent::S_MTE2>(positionRecycleEvent_);
++        }
++        DataCopyExtParams cp{1, count * uint32_t(sizeof(int32_t)), 0, 0, 0};
++        DataCopyPadExtParams<int32_t> pad{true, 0, 0, 0};
++        DataCopyPad(next, positions_[cacheEnd_], cp, pad);
++        // One outstanding ready event; Scalar waits only when changing caches.
++        SetFlag<HardEvent::MTE2_S>(positionReadyEvent_);
++        positionPrefetchEnd_ = cacheEnd_ + count;
++        positionPrefetchPending_ = true;
+     }
+ 
+     __aicore__ inline LocalTensor<float> AngleBuffer(uint32_t index)
+@@ -1042,13 +1085,17 @@
+     TPipe pipe_;
+     TQue<QuePosition::VECIN, 1> inputQueue_;
+     TQue<QuePosition::VECOUT, 1> outputQueue_;
+-    TQue<QuePosition::VECIN, 1> positionQueue_;
++    TBuf<TPosition::VECIN> positionBuffer_;
+     TBuf<TPosition::VECCALC> fpWork_, product_, frequencies_, angleWork_;
+     GlobalTensor<T> x_, y_;
+     GlobalTensor<int32_t> positions_;
+     LocalTensor<int32_t> positionLocal_;
+     uint64_t cacheStart_ = 0, cacheEnd_ = 0;
++    uint64_t positionOwnedEnd_ = 0, positionPrefetchEnd_ = 0;
++    event_t positionReadyEvent_, positionRecycleEvent_;
++    uint32_t positionSlot_ = 0;
+     bool positionLive_ = false;
++    bool positionNeedsRecycle_ = false, positionPrefetchPending_ = false;
+ };
+ 
+ // One complete FP32 D16/H1 token per core. Frequencies retain host powf bits.

@@ -21,4 +21,9 @@
 
 ## 排名冲刺更新
 
-当前纳入提交 **230746**：15/15 Pass，本轮基准 **10.41**。[评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e99f2bf41025d6015c51c)；[实验及逐点耗时](operators/rotaryposemb/docs/sprint65/README.md)。2026-09-07核查时第5名，达到前6目标，旧计分基准不可直接比较。
+此前纳入提交 **230746**：15/15 Pass，本轮基准 **10.41**。[评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9e99f2bf41025d6015c51c)；[实验及逐点耗时](operators/rotaryposemb/docs/sprint65/README.md)。2026-09-07核查时第5名，达到前6目标，旧计分基准不可直接比较。
+
+
+## 自身性能改进
+
+当前纳入 **233563**，与 **233235** 使用同一源码，两轮均15/15 Pass。原版复测为233123、233505。按逐点双轮均值计算，耗时比几何平均下降3.00%，总耗时下降0.37%；两次配对改善分别为4.15%和1.82%，存在噪声。[最终评测](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ee06fc76b321ca6ab38e6)；[六个候选的实测、补丁与验证](operators/rotaryposemb/docs/pipeline-experiments/README.md)。

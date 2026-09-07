@@ -24,7 +24,7 @@ inline uint32_t forcedLaunches = 0;
 inline uint32_t tinyLaunches = 0;
 inline uint64_t gmInCalls = 0, gmOutCalls = 0, gmInBytes = 0, gmOutBytes = 0;
 inline uint64_t tbufInitCalls = 0, tqueInitCalls = 0;
-inline uint64_t eventSets[6]{}, eventWaits[6]{};
+inline uint64_t eventSets[7]{}, eventWaits[7]{};
 struct Region { uint8_t* start; size_t size; };
 inline std::vector<Region> regions;
 inline void checkGlobal(void* ptr, size_t bytes) {
@@ -39,7 +39,7 @@ inline void checkGlobal(void* ptr, size_t bytes) {
 namespace AscendC {
 enum class TPosition { VECIN, VECOUT, VECCALC };
 using QuePosition = TPosition;
-enum class HardEvent { S_V, MTE2_S, V_S, MTE2_V, V_MTE3, MTE3_S };
+enum class HardEvent { S_V, MTE2_S, V_S, MTE2_V, V_MTE3, MTE3_S, S_MTE2 };
 using event_t = int;
 enum pipe_t { PIPE_V, PIPE_ALL };
 template<pipe_t> inline void PipeBarrier() {}

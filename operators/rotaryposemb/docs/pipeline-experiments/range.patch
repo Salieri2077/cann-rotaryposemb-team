@@ -1,0 +1,84 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -541,7 +541,7 @@
+         auto cos = AngleBuffer(5);
+         auto sin = AngleBuffer(6);
+         if (cfg_->wideAngles) {
+-            // Rare theta<1 path: bounded quotient reduction is insufficient.
++            // Angles above the host-certified fast bound retain full reduction.
+             // Only UB data is read here; global-memory traffic remains vectorized.
+             const event_t toScalar =
+                 static_cast<event_t>(pipe_.FetchEventID(HardEvent::V_S));
+@@ -564,7 +564,7 @@
+             Cast(quotient, quotientInt, RoundMode::CAST_NONE, count);
+             PipeBarrier<PIPE_V>();
+ 
+-            // q <= 20861. Products q*(201/32) and q*(507/2^18) are
++            // q <= 31291. Products q*(201/32) and q*(507/2^18) are
+             // exactly representable in FP32, so either fused or separate Axpy
+             // gives the same subtraction result as the original Mul/Sub pair.
+             // The nonexact third product deliberately keeps separate rounding.
+@@ -1141,7 +1141,7 @@
+         auto cos = AngleBuffer(5);
+         auto sin = AngleBuffer(6);
+         if (cfg_->wideAngles) {
+-            // Rare theta<1 path: bounded quotient reduction is insufficient.
++            // Angles above the host-certified fast bound retain full reduction.
+             // Only UB data is read here; global-memory traffic remains vectorized.
+             const event_t toScalar =
+                 static_cast<event_t>(pipe_.FetchEventID(HardEvent::V_S));
+@@ -1164,7 +1164,7 @@
+             Cast(quotient, quotientInt, RoundMode::CAST_NONE, count);
+             PipeBarrier<PIPE_V>();
+ 
+-            // q <= 20861. Products q*(201/32) and q*(507/2^18) are
++            // q <= 31291. Products q*(201/32) and q*(507/2^18) are
+             // exactly representable in FP32, so either fused or separate Axpy
+             // gives the same subtraction result as the original Mul/Sub pair.
+             // The nonexact third product deliberately keeps separate rounding.
+@@ -1293,9 +1293,16 @@
+         tinyTokens <= static_cast<uint64_t>(availableCoreNum) && tinyTokens <= 65535u) {
+         OneTokenConfig tiny{};
+         tiny.wideAngles = theta < 1.0f;
++        float maxFrequency = 1.0f;
+         for (uint32_t i = 0; i < 8; ++i) {
+             const float exponent = static_cast<float>(2 * i) / 16.0f;
+             tiny.frequency[i] = 1.0f / ::powf(theta, exponent);
++            if (tiny.wideAngles && tiny.frequency[i] > maxFrequency) {
++                maxFrequency = tiny.frequency[i];
++            }
++        }
++        if (tiny.wideAngles && 131072.0f * maxFrequency <= 196608.0f) {
++            tiny.wideAngles = 0;
+         }
+         const uint32_t tinyBlocks = static_cast<uint32_t>(tinyTokens);
+         rotary_pos_emb_one_token<<<tinyBlocks, nullptr, stream>>>(x, positions, y, tiny);
+@@ -1372,11 +1379,15 @@
+     if (cfg.encodedFrequency) cfg.frequency.packed.ratioBits = ratio.u;
+     uint32_t previous = 0;
+     bool normalProducts = true;
++    float maxFrequency = 1.0f;
+     for (uint32_t i = 0; i < cfg.halfDim; ++i) {
+         const float exponent = static_cast<float>(2 * i) / static_cast<float>(cfg.dim);
+         const float power = ::powf(theta, exponent);
+         union FloatBits { float f; uint32_t u; } current;
+         current.f = 1.0f / power;
++        if (cfg.wideAngles && current.f > maxFrequency) {
++            maxFrequency = current.f;
++        }
+         if (!cfg.encodedFrequency) {
+             cfg.frequency.raw[i] = current.f;
+         } else {
+@@ -1398,6 +1409,12 @@
+         }
+     }
+ 
++    // Multiplication by 2^17 preserves the finite FP32 frequency exactly.
++    // The fixed public position bound avoids a device reduction or extra DMA.
++    if (cfg.wideAngles && 131072.0f * maxFrequency <= 196608.0f) {
++        cfg.wideAngles = 0;
++    }
++
+     if (cfg.encodedFrequency && normalProducts) cfg.encodedFrequency |= 256u;
+ 
+     if (in.dtype == 0) {

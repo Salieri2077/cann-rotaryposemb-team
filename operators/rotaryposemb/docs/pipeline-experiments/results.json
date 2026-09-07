@@ -1,0 +1,927 @@
+{
+  "baseline_commit": "cc254e4614501bf625e23390854779c6cd8b780b",
+  "baseline_sha256": "3616b92cf7c5ed62916ebbd0432756192816b5081d20af72bbcf5e4c1bbc2c26",
+  "retained_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+  "time_unit": "microseconds (official UI testcaseTimeLabel)",
+  "time_scope": "Platform API time; aggregation and host/device scope not independently verified",
+  "environment": {
+    "cann": "9.0.0",
+    "target": "dav-2201",
+    "exact_hardware": "not independently reported",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "problem_version": 1,
+    "iterations_metadata": 5,
+    "local_npu": false
+  },
+  "runs": [
+    {
+      "tag": "baseline_a",
+      "submission_id": "6a9ed64ec76b321ca6a7913e",
+      "display_id": 233123,
+      "create_time": "2026-09-07T15:20:46.925Z",
+      "source_sha256": "3616b92cf7c5ed62916ebbd0432756192816b5081d20af72bbcf5e4c1bbc2c26",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ed64ec76b321ca6a7913e",
+      "result": [
+        {
+          "time": 3,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.66,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 9.45,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 18.16,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 20.76,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 32.92,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 30.48,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 17.76,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 47.13,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6502.36,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 48.02,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 60.73,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 354.12,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 874.32,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 299.72,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "bank",
+      "submission_id": "6a9ed796c76b321ca6a81ce9",
+      "display_id": 233178,
+      "create_time": "2026-09-07T15:26:14.935Z",
+      "source_sha256": "85957da7dff91ce2cabc7ad94238590a24f1c0e14043982e676e7a6d589cf9ca",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ed796c76b321ca6a81ce9",
+      "result": [
+        {
+          "time": 2.94,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.64,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 9.5,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 17.95,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 20.77,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 32.01,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 30,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 17.71,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 46.71,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6500.74,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 47.54,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 59.94,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 350.88,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 872.08,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 290.39,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "position",
+      "submission_id": "6a9ed8e9c76b321ca6a892ea",
+      "display_id": 233235,
+      "create_time": "2026-09-07T15:31:53.486Z",
+      "source_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ed8e9c76b321ca6a892ea",
+      "result": [
+        {
+          "time": 2.96,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.4,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 8.54,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 17.29,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 20.12,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 31.07,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 29.53,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 16.2,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 45.28,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6498.78,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 45.52,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 58.24,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 344.32,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 863.32,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 289.23,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "quarter",
+      "submission_id": "6a9eda2dc76b321ca6a8fb7c",
+      "display_id": 233281,
+      "create_time": "2026-09-07T15:37:17.132Z",
+      "source_sha256": "36ffbed577ab370a360fb0883abd8fdec5ab4e62793fc91cc74aee68f24c41ba",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9eda2dc76b321ca6a8fb7c",
+      "result": [
+        {
+          "time": 2.93,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.72,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 9.73,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 18.64,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 21.93,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 32.44,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 30.38,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 18.46,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 46.96,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6501.42,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 48.66,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 61.04,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 351.07,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 870.23,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 293.29,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "ph_window",
+      "submission_id": "6a9edb59c76b321ca6a96296",
+      "display_id": 233319,
+      "create_time": "2026-09-07T15:42:17.840Z",
+      "source_sha256": "6d0df5f71548652a91c502b450fc6f79e5481f239989b8c99138b2985fe21648",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9edb59c76b321ca6a96296",
+      "result": [
+        {
+          "time": 3.09,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.55,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 9.41,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 18.04,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 20.72,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 32.83,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 30.27,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 17.73,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 46.37,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6499.69,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 47.65,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 60.73,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 351.58,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 873,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 295.84,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "position_double",
+      "submission_id": "6a9edca3c76b321ca6a9e1ea",
+      "display_id": 233386,
+      "create_time": "2026-09-07T15:47:47.618Z",
+      "source_sha256": "882ea49608ee88c5c1526d074c09bd12348e0f97938069696e0740e6e46004df",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9edca3c76b321ca6a9e1ea",
+      "result": [
+        {
+          "time": 2.99,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.53,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 8.94,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 17.89,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 20.53,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 31.62,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 30.38,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 17.24,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 47.26,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6501.83,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 46.72,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 59.42,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 346.56,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 868.08,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 294.07,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "position_padded",
+      "submission_id": "6a9edddec76b321ca6aa4b1a",
+      "display_id": 233440,
+      "create_time": "2026-09-07T15:53:02.704Z",
+      "source_sha256": "cf07dd00fabe9c30bcf7f7ba1af8d7ca00e2fcc6515fe1e2450da57f05dd19cf",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9edddec76b321ca6aa4b1a",
+      "result": [
+        {
+          "time": 2.96,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.54,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 9.21,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 17.84,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 21.03,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 31.65,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 30.16,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 17.64,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 46.22,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6489.67,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 47.19,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 59.96,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 348.43,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 870.59,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 292.7,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "baseline_b",
+      "submission_id": "6a9edf1fc76b321ca6aac11d",
+      "display_id": 233505,
+      "create_time": "2026-09-07T15:58:23.644Z",
+      "source_sha256": "3616b92cf7c5ed62916ebbd0432756192816b5081d20af72bbcf5e4c1bbc2c26",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9edf1fc76b321ca6aac11d",
+      "result": [
+        {
+          "time": 2.98,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.49,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 9.23,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 17.55,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 20.42,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 31.56,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 29.62,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 17.25,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 46.13,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6497.67,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 46.9,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 59.67,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 348.68,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 865.76,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 293.56,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    },
+    {
+      "tag": "position_b",
+      "submission_id": "6a9ee06fc76b321ca6ab38e6",
+      "display_id": 233563,
+      "create_time": "2026-09-07T16:03:59.422Z",
+      "source_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+      "status": "Pass",
+      "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ee06fc76b321ca6ab38e6",
+      "result": [
+        {
+          "time": 3.01,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014321d"
+        },
+        {
+          "time": 5.35,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143221"
+        },
+        {
+          "time": 8.61,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143225"
+        },
+        {
+          "time": 17.44,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143229"
+        },
+        {
+          "time": 20.05,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014322d"
+        },
+        {
+          "time": 31.37,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143231"
+        },
+        {
+          "time": 29.38,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143235"
+        },
+        {
+          "time": 16.41,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143239"
+        },
+        {
+          "time": 44.64,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014323d"
+        },
+        {
+          "time": 6496.2,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143241"
+        },
+        {
+          "time": 45.55,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143245"
+        },
+        {
+          "time": 58.27,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143249"
+        },
+        {
+          "time": 347.34,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d6014324d"
+        },
+        {
+          "time": 866.24,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143251"
+        },
+        {
+          "time": 290.16,
+          "testcase_status": "Pass",
+          "precision_ratio": 1,
+          "testcase_id": "6a9a9befbf41025d60143255"
+        }
+      ]
+    }
+  ]
+}
