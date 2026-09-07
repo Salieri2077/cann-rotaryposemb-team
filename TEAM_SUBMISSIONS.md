@@ -10,7 +10,7 @@
 | 2026-09-06 18:02:14 | Compile Error | [6a9daaa6bf41025d60d9a7fd](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9daaa6bf41025d60d9a7fd) |
 | 2026-09-06 17:15:46 | Runtime Error | [6a9d9fc2bf41025d60d77f36](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9d9fc2bf41025d60d77f36) |
 
-这些链接仅记录平台可见的提交元数据，没有下载或合入队友源码。详情页或代码可见性以平台授权为准。
+初始记录只包含平台可见元数据。现已由 swlaird 提供提交 224901 的完整源码，作为 operators/rotaryposemb/kernel.asc 的当前版本，并补齐 CPU 验证工具；详情见算子 README 和 RESULTS。
 
-本仓库的算子基线对应另一条通过记录：
+本仓库此前的算子基线对应另一条通过记录（保留历史）：
 [6a9d8568bf41025d60d073e9](https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9d8568bf41025d60d073e9)，15 个用例均为 Pass、precision_ratio=1，详见 [RESULTS.md](operators/rotaryposemb/RESULTS.md)。
