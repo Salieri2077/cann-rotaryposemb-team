@@ -1,0 +1,38 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -276,0 +277,4 @@
++template<> struct ConfigSelector<256> { using Type = CompactLaunchConfig<128>; };
++template<> struct ConfigSelector<512> { using Type = CompactLaunchConfig<256>; };
++// D1024 uses lossless encoded frequencies and retains the complete config.
++template<> struct ConfigSelector<1024> { using Type = LaunchConfig; };
+@@ -287,0 +292,6 @@
++static_assert(sizeof(CompactLaunchConfig<128>) + 3 * sizeof(uint64_t) == 616,
++              "D256 uses a 616-byte launch payload.");
++static_assert(sizeof(CompactLaunchConfig<256>) + 3 * sizeof(uint64_t) == 1128,
++              "D512 uses a 1128-byte launch payload.");
++static_assert(sizeof(KernelConfig<1024>) + 3 * sizeof(uint64_t) <= 1536,
++              "D1024 retains the full encoded config within the launch limit.");
+@@ -355,2 +365,3 @@
+-    static_assert(FixedDim == 0 || FixedDim == 16 || FixedDim == 32 || FixedDim == 64 || FixedDim == 128,
+-                  "Only the public D=16/32/64/128 specializations are enabled.");
++    static_assert(FixedDim == 0 || FixedDim == 16 || FixedDim == 32 || FixedDim == 64 ||
++                  FixedDim == 128 || FixedDim == 256 || FixedDim == 512 || FixedDim == 1024,
++                  "Only the public power-of-two dimension specializations are enabled.");
+@@ -1420,0 +1432,8 @@
++        } else if (cfg.dim == 256) {
++            const auto compact = MakeCompactConfig<128>(cfg);
++            rotary_pos_emb_draft<float, 256><<<cfg.blockCount, nullptr, stream>>>(x, positions, y, compact);
++        } else if (cfg.dim == 512) {
++            const auto compact = MakeCompactConfig<256>(cfg);
++            rotary_pos_emb_draft<float, 512><<<cfg.blockCount, nullptr, stream>>>(x, positions, y, compact);
++        } else if (cfg.dim == 1024) {
++            rotary_pos_emb_draft<float, 1024><<<cfg.blockCount, nullptr, stream>>>(x, positions, y, cfg);
+@@ -1436,0 +1456,8 @@
++        } else if (cfg.dim == 256) {
++            const auto compact = MakeCompactConfig<128>(cfg);
++            rotary_pos_emb_draft<half, 256><<<cfg.blockCount, nullptr, stream>>>(x, positions, y, compact);
++        } else if (cfg.dim == 512) {
++            const auto compact = MakeCompactConfig<256>(cfg);
++            rotary_pos_emb_draft<half, 512><<<cfg.blockCount, nullptr, stream>>>(x, positions, y, compact);
++        } else if (cfg.dim == 1024) {
++            rotary_pos_emb_draft<half, 1024><<<cfg.blockCount, nullptr, stream>>>(x, positions, y, cfg);

@@ -1,0 +1,98 @@
+{
+  "_id": "6a9ff92ec76b321ca60188d4",
+  "ID": 242391,
+  "status": "Pass",
+  "create_time": "2026-09-08T12:01:50.060Z",
+  "result": [
+    {
+      "time": 2.92,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d6014321d"
+    },
+    {
+      "time": 5.5,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143221"
+    },
+    {
+      "time": 9.09,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143225"
+    },
+    {
+      "time": 17.76,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143229"
+    },
+    {
+      "time": 20.46,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d6014322d"
+    },
+    {
+      "time": 32.06,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143231"
+    },
+    {
+      "time": 29.41,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143235"
+    },
+    {
+      "time": 16.86,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143239"
+    },
+    {
+      "time": 46.62,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d6014323d"
+    },
+    {
+      "time": 6500.44,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143241"
+    },
+    {
+      "time": 46.7,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143245"
+    },
+    {
+      "time": 59.47,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143249"
+    },
+    {
+      "time": 349.42,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d6014324d"
+    },
+    {
+      "time": 867.42,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143251"
+    },
+    {
+      "time": 291.92,
+      "testcase_status": "Pass",
+      "precision_ratio": 1,
+      "testcase_id": "6a9a9befbf41025d60143255"
+    }
+  ]
+}

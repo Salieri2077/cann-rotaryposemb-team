@@ -1,0 +1,82 @@
+{
+  "baseline-a1": {
+    "submission_id": "6a9ff490c76b321ca6fffe7e",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+    "kernel_bytes": 63560,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ff490c76b321ca6fffe7e"
+  },
+  "baseline-a2": {
+    "submission_id": "6a9ff92ec76b321ca60188d4",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+    "kernel_bytes": 63560,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ff92ec76b321ca60188d4"
+  },
+  "baseline-a3": {
+    "submission_id": "6aa007c6c76b321ca6071cae",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+    "kernel_bytes": 63560,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6aa007c6c76b321ca6071cae"
+  },
+  "batch8guard4-g1": {
+    "submission_id": "6aa002c6c76b321ca6054ab5",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "64ea1e92ea94220ea61a349df194864fc4948ad802e2b0b1eb73035a9c369085",
+    "kernel_bytes": 63659,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6aa002c6c76b321ca6054ab5"
+  },
+  "batch8guard4-g2": {
+    "submission_id": "6aa0092fc76b321ca607befd",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "64ea1e92ea94220ea61a349df194864fc4948ad802e2b0b1eb73035a9c369085",
+    "kernel_bytes": 63659,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6aa0092fc76b321ca607befd"
+  },
+  "batch8guard4multi-j1": {
+    "submission_id": "6aa004b9c76b321ca60610c9",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "e90f1f0279b41f429a7f687ed09fbfeffd7288bfd0412af2d431ae2af16cc625",
+    "kernel_bytes": 63710,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6aa004b9c76b321ca60610c9"
+  },
+  "fixedwide-w1": {
+    "submission_id": "6a9ffa98c76b321ca6020edf",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "56d984fec6c62f0312efd167a01ee4886e6580bae26266e26fb8b2522caf9eeb",
+    "kernel_bytes": 65494,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ffa98c76b321ca6020edf"
+  },
+  "math-m1": {
+    "submission_id": "6a9ff7dcc76b321ca6011576",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "6491a30c872e5bb6e2d88cf979c4708c7f44575d111d58ee42145039a8c33d90",
+    "kernel_bytes": 66905,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ff7dcc76b321ca6011576"
+  },
+  "pipeline-p1": {
+    "submission_id": "6a9ff671c76b321ca600a355",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "be5191da6ea7eea871486f641d4a8d3efb74a49246f61a99d70e0082d41c4d71",
+    "kernel_bytes": 63710,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6a9ff671c76b321ca600a355"
+  },
+  "theta1init-u1": {
+    "submission_id": "6aa00651c76b321ca606a196",
+    "problem_id": "6a9a9befbf41025d60143218",
+    "kernel_sha256": "186c74c079aee8bc317722d4143132fcc22be2aa5ef576b08a4555c335464c95",
+    "kernel_bytes": 66215,
+    "submitted": true,
+    "url": "https://cannjudge.cn/public/op_challenge_jingdong_prelim/rotaryposemb/submission/6aa00651c76b321ca606a196"
+  }
+}

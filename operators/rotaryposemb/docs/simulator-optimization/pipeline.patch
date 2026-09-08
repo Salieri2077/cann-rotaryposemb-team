@@ -1,0 +1,8 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -1031 +1030,0 @@
+-        CopyIn(firstRow, rows);
+@@ -1037,0 +1037,3 @@
++        // Finish all Scalar position reads before this batch's X DMA.
++        // The independent trig pass can then overlap with the input transfer.
++        CopyIn(firstRow, rows);

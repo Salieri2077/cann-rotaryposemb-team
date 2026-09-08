@@ -1,0 +1,53 @@
+{
+  "python_syntax_and_cli_help": "pass",
+  "staged_sha_verification": "pass",
+  "no_overwrite_stage": "pass",
+  "kernel_compiled": false,
+  "kernel_executed": false,
+  "camodel_executed": false,
+  "checker_tests": [
+    {
+      "fixture": "both_fail",
+      "exitcode": 1,
+      "references": {
+        "same_powf": {
+          "pass": false,
+          "mismatch_fraction": 1.0,
+          "max_abs_error": 2.0
+        },
+        "official_numpy": {
+          "pass": false,
+          "mismatch_fraction": 1.0,
+          "max_abs_error": 1.0
+        }
+      },
+      "comparison_overwrite_refused": true
+    },
+    {
+      "fixture": "second_reference_fails",
+      "exitcode": 1,
+      "references": {
+        "same_powf": {
+          "pass": true,
+          "mismatch_fraction": 0.0,
+          "max_abs_error": 0.0
+        },
+        "official_numpy": {
+          "pass": false,
+          "mismatch_fraction": 1.0,
+          "max_abs_error": 1.0
+        }
+      },
+      "comparison_overwrite_refused": true
+    }
+  ],
+  "notes": "Synthetic checker fixtures only; no compiled kernel or CANN simulator was executed by this test.",
+  "tools_sha256": {
+    "CMakeLists.txt": "25026d5e42570f9aa665f2d30dcd8b8d97964f29c363da2e44fa5d3efbebb2e3",
+    "check_output.py": "c7e31f6336f7c9c43df3931b4449e07863873ecc8b7907e2e478a69f056d9320",
+    "run_profiles.py": "1b1dded4561c31496eec2388948a9749cde0f1729460975979bd5022bfde3b56",
+    "stage.py": "e3d11bc4535e4c4ac69f2a127fa9acb8ffbc0999e7c24a4c94226cf7c798d48f",
+    "sim_runner.asc": "35df7890868af0a3be08e20a1003a37ad2bd3721708118a80598eecdce1bcc42",
+    "README.md": "fc52db3cd19d8f00fa4213ca5034a97a5e017c0d33c064a07aab9cddaab4da60"
+  }
+}

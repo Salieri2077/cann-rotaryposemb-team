@@ -1,0 +1,55 @@
+{
+  "baseline_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+  "patch_base": "All patches are independent against baseline; do not apply in sequence.",
+  "candidates": {
+    "pipeline": {
+      "sha256": "be5191da6ea7eea871486f641d4a8d3efb74a49246f61a99d70e0082d41c4d71",
+      "patch": "pipeline.patch"
+    },
+    "math": {
+      "sha256": "6491a30c872e5bb6e2d88cf979c4708c7f44575d111d58ee42145039a8c33d90",
+      "patch": "math.patch"
+    },
+    "padding": {
+      "sha256": "d5c7f0ab21ed09b2127d186664b54ac174bddfe8bd3b98804cb72b8ee1d00f4a",
+      "patch": "padding.patch"
+    },
+    "broadcast": {
+      "sha256": "9de5a7c5ebe9a2ea9396d2619111a8e2361499eba2d683c93bb4e72110952b7d",
+      "patch": "broadcast.patch"
+    },
+    "anglehandle": {
+      "sha256": "4827919d14b68f0c57192426c7da9817f990c5b9b801c2b92834be1d9c65b5df",
+      "patch": "anglehandle.patch"
+    },
+    "batch8": {
+      "sha256": "8a7aec280f6785fa4964e239af91498fd2dfa841ea11d519a9eeb588a86eb250",
+      "patch": "batch8.patch"
+    },
+    "batch8guard4": {
+      "sha256": "64ea1e92ea94220ea61a349df194864fc4948ad802e2b0b1eb73035a9c369085",
+      "patch": "batch8guard4.patch"
+    },
+    "batch8guard4multi": {
+      "sha256": "e90f1f0279b41f429a7f687ed09fbfeffd7288bfd0412af2d431ae2af16cc625",
+      "patch": "batch8guard4multi.patch"
+    },
+    "fixedwide": {
+      "sha256": "56d984fec6c62f0312efd167a01ee4886e6580bae26266e26fb8b2522caf9eeb",
+      "patch": "fixedwide.patch"
+    },
+    "theta1": {
+      "sha256": "cc8c23370a0385bdc0e87c3c4d575759fe2d438ce7e3c8d3dda4baf8ebf33d46",
+      "patch": "theta1.patch"
+    },
+    "theta1init": {
+      "sha256": "186c74c079aee8bc317722d4143132fcc22be2aa5ef576b08a4555c335464c95",
+      "patch": "theta1init.patch"
+    },
+    "combo": {
+      "sha256": "5111c75935b623d6d80479f3d7652d55fd0c2d19a1c57991e2016d9ad1259d42",
+      "patch": "combo.patch"
+    }
+  },
+  "patch_format": "Zero-context unified diff; apply on the exact baseline with git apply --unidiff-zero <candidate>.patch. Every patch was applied and its resulting source SHA verified."
+}

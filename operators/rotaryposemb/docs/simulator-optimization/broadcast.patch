@@ -1,0 +1,16 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -987,0 +988 @@
++        LocalTensor<float>& cos, LocalTensor<float>& sin,
+@@ -990,2 +990,0 @@
+-        auto cos = AngleBuffer(5);
+-        auto sin = AngleBuffer(6);
+@@ -1007,0 +1007,2 @@
++        auto cos = AngleBuffer(5);
++        auto sin = AngleBuffer(6);
+@@ -1014 +1015 @@
+-                BroadcastTokenTrig(t - 1, 0, cfg_->heads);
++                BroadcastTokenTrig(cos, sin, t - 1, 0, cfg_->heads);
+@@ -1021 +1022 @@
+-        BroadcastTokenTrig(0, 1, cfg_->heads - 1);
++        BroadcastTokenTrig(cos, sin, 0, 1, cfg_->heads - 1);

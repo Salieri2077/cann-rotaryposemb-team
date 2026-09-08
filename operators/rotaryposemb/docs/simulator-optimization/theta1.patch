@@ -1,0 +1,82 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -488,4 +488,15 @@
+-                    for (uint32_t t = 0; t < tokenCount; ++t) {
+-                        Muls(AngleBuffer(0)[t * RowStride()], frequencies_.Get<float>(),
+-                             static_cast<float>(t == 0 ? firstPosition : Position(coeffBegin + t)),
+-                             RowStride());
++                    if (cfg_->wideAngles == 2u) {
++                        auto angle = AngleBuffer(0);
++                        for (uint32_t t = 0; t < tokenCount; ++t) {
++                            const int32_t position = t == 0 ? firstPosition : Position(coeffBegin + t);
++                            angle.SetValue(t, static_cast<float>(position));
++                        }
++                        FinishUnitFrequencyTrig(tokenCount);
++                    } else {
++                        for (uint32_t t = 0; t < tokenCount; ++t) {
++                            Muls(AngleBuffer(0)[t * RowStride()], frequencies_.Get<float>(),
++                                 static_cast<float>(t == 0 ? firstPosition : Position(coeffBegin + t)),
++                                 RowStride());
++                        }
++                        PipeBarrier<PIPE_V>();
++                        FinishTrig(tokenCount * RowStride());
+@@ -493,2 +503,0 @@
+-                    PipeBarrier<PIPE_V>();
+-                    FinishTrig(tokenCount * RowStride());
+@@ -538,0 +548,26 @@
++    // theta==1 gives exactly unit frequencies. Only aligned wide rows use
++    // this path, so every broadcast lane is real and no padding is changed.
++    __aicore__ inline void FinishUnitFrequencyTrig(uint32_t tokens)
++    {
++        const event_t anglesReady =
++            static_cast<event_t>(pipe_.FetchEventID(HardEvent::S_V));
++        SetFlag<HardEvent::S_V>(anglesReady);
++        WaitFlag<HardEvent::S_V>(anglesReady);
++        FinishTrig(tokens);
++        const event_t coefficientsReady =
++            static_cast<event_t>(pipe_.FetchEventID(HardEvent::V_S));
++        SetFlag<HardEvent::V_S>(coefficientsReady);
++        WaitFlag<HardEvent::V_S>(coefficientsReady);
++        auto cosine = AngleBuffer(5);
++        auto sine = AngleBuffer(6);
++        // Descending expansion cannot overwrite any unread compact source.
++        for (uint32_t pending = tokens; pending > 0; --pending) {
++            const uint32_t token = pending - 1;
++            const float cosValue = cosine.GetValue(token);
++            const float sinValue = sine.GetValue(token);
++            Duplicate(cosine[token * RowStride()], cosValue, RowStride());
++            Duplicate(sine[token * RowStride()], sinValue, RowStride());
++        }
++        PipeBarrier<PIPE_V>();
++    }
++
+@@ -548 +583 @@
+-        if (cfg_->wideAngles) {
++        if (cfg_->wideAngles == 1u) {
+@@ -1034,6 +1069,13 @@
+-        for (uint32_t t = 0; t < tokens; ++t) {
+-            const float position = static_cast<float>(Position(firstToken + t));
+-            Muls(angle[t * RowStride()], freq, position, RowStride());
+-        }
+-        PipeBarrier<PIPE_V>();
+-        FinishTrig(tokens * RowStride());
++        if (cfg_->wideAngles == 2u) {
++            for (uint32_t t = 0; t < tokens; ++t) {
++                angle.SetValue(t, static_cast<float>(Position(firstToken + t)));
++            }
++            FinishUnitFrequencyTrig(tokens);
++        } else {
++            for (uint32_t t = 0; t < tokens; ++t) {
++                const float position = static_cast<float>(Position(firstToken + t));
++                Muls(angle[t * RowStride()], freq, position, RowStride());
++            }
++            PipeBarrier<PIPE_V>();
++            FinishTrig(tokens * RowStride());
++        }
+@@ -1317,0 +1360,6 @@
++    // wideAngles: 0=ordinary vector, 1=PH, 2=unit-frequency vector+broadcast.
++    // Keep narrow or padded rows on the original path; broadcast overhead is
++    // only worth investigating when the original row spans multiple repeats.
++    if (theta == 1.0f && cfg.halfDim >= 128u && cfg.rowStride == cfg.halfDim) {
++        cfg.wideAngles = 2u;
++    }

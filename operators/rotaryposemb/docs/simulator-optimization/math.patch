@@ -1,0 +1,120 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -323,0 +324,26 @@
++// wideAngles encoding preserves the launch payload size: 0 keeps the normal
++// theta>=1 path; 1 always uses Payne-Hanek; limit+2 allows vector reduction
++// only when every position in this coefficient window is <= limit.
++inline uint32_t EncodeWideAngleLimit(float maxFrequency)
++{
++    if (!std::isfinite(maxFrequency) || maxFrequency <= 0.0f) return 1;
++    const float estimate = 131072.0f / maxFrequency;
++    uint32_t limit = estimate >= 131072.0f ? 131072u : uint32_t(estimate);
++    union FloatBits { float f; uint32_t u; } frequency, position;
++    frequency.f = maxFrequency;
++    // Division can round upward across an integer. Verify the FP32 product
++    // with exact RNE integer arithmetic. Positive multiplication is monotone,
++    // so this bounds every live angle by the existing fast-path limit.
++    position.f = static_cast<float>(limit);
++    while (host_math::MultiplyPositiveRne(position.u, frequency.u) > 0x48000000u) {
++        --limit;
++        position.f = static_cast<float>(limit);
++    }
++    return limit + 2u;
++}
++
++__aicore__ inline bool NeedWideReduction(uint32_t mode, uint32_t maxPosition)
++{
++    return mode != 0 && (mode == 1 || maxPosition > mode - 2u);
++}
++
+@@ -488,4 +514,17 @@
+-                    for (uint32_t t = 0; t < tokenCount; ++t) {
+-                        Muls(AngleBuffer(0)[t * RowStride()], frequencies_.Get<float>(),
+-                             static_cast<float>(t == 0 ? firstPosition : Position(coeffBegin + t)),
+-                             RowStride());
++                    uint32_t maxPosition = 0;
++                    if (cfg_->wideAngles) {
++                        for (uint32_t t = 0; t < tokenCount; ++t) {
++                            const int32_t position = t == 0 ? firstPosition : Position(coeffBegin + t);
++                            if (static_cast<uint32_t>(position) > maxPosition) {
++                                maxPosition = static_cast<uint32_t>(position);
++                            }
++                            Muls(AngleBuffer(0)[t * RowStride()], frequencies_.Get<float>(),
++                                 static_cast<float>(position), RowStride());
++                        }
++                    } else {
++                        // Keep the normal theta>=1 loop free of bound checks.
++                        for (uint32_t t = 0; t < tokenCount; ++t) {
++                            Muls(AngleBuffer(0)[t * RowStride()], frequencies_.Get<float>(),
++                                 static_cast<float>(t == 0 ? firstPosition : Position(coeffBegin + t)),
++                                 RowStride());
++                        }
+@@ -494 +533 @@
+-                    FinishTrig(tokenCount * RowStride());
++                    FinishTrig(tokenCount * RowStride(), maxPosition);
+@@ -539 +578 @@
+-    __aicore__ inline void FinishTrig(uint32_t count)
++    __aicore__ inline void FinishTrig(uint32_t count, uint32_t maxPosition)
+@@ -548,2 +587,2 @@
+-        if (cfg_->wideAngles) {
+-            // Rare theta<1 path: bounded quotient reduction is insufficient.
++        if (NeedWideReduction(cfg_->wideAngles, maxPosition)) {
++            // Unbounded theta<1 window: bounded quotient reduction is insufficient.
+@@ -1034,6 +1073,18 @@
+-        for (uint32_t t = 0; t < tokens; ++t) {
+-            const float position = static_cast<float>(Position(firstToken + t));
+-            Muls(angle[t * RowStride()], freq, position, RowStride());
+-        }
+-        PipeBarrier<PIPE_V>();
+-        FinishTrig(tokens * RowStride());
++        uint32_t maxPosition = 0;
++        if (cfg_->wideAngles) {
++            for (uint32_t t = 0; t < tokens; ++t) {
++                const int32_t position = Position(firstToken + t);
++                if (static_cast<uint32_t>(position) > maxPosition) {
++                    maxPosition = static_cast<uint32_t>(position);
++                }
++                Muls(angle[t * RowStride()], freq, static_cast<float>(position), RowStride());
++            }
++        } else {
++            // Keep the normal theta>=1 loop free of bound checks.
++            for (uint32_t t = 0; t < tokens; ++t) {
++                const float position = static_cast<float>(Position(firstToken + t));
++                Muls(angle[t * RowStride()], freq, position, RowStride());
++            }
++        }
++        PipeBarrier<PIPE_V>();
++        FinishTrig(tokens * RowStride(), maxPosition);
+@@ -1098 +1149,2 @@
+-        const float p = static_cast<float>(position.GetValue(0));
++        const int32_t positionValue = position.GetValue(0);
++        const float p = static_cast<float>(positionValue);
+@@ -1106 +1158 @@
+-        FinishTrig(8);
++        FinishTrig(8, static_cast<uint32_t>(positionValue));
+@@ -1139 +1191 @@
+-    __aicore__ inline void FinishTrig(uint32_t count)
++    __aicore__ inline void FinishTrig(uint32_t count, uint32_t maxPosition)
+@@ -1148,2 +1200,2 @@
+-        if (cfg_->wideAngles) {
+-            // Rare theta<1 path: bounded quotient reduction is insufficient.
++        if (NeedWideReduction(cfg_->wideAngles, maxPosition)) {
++            // Unbounded theta<1 window: bounded quotient reduction is insufficient.
+@@ -1300,0 +1353 @@
++        float maxFrequency = 0.0f;
+@@ -1304 +1357,6 @@
+-        }
++            if (tiny.wideAngles && (!std::isfinite(tiny.frequency[i]) ||
++                                   tiny.frequency[i] > maxFrequency)) {
++                maxFrequency = tiny.frequency[i];
++            }
++        }
++        if (tiny.wideAngles) tiny.wideAngles = EncodeWideAngleLimit(maxFrequency);
+@@ -1379,0 +1438 @@
++    float maxFrequency = 0.0f;
+@@ -1384,0 +1444,3 @@
++        if (cfg.wideAngles && (!std::isfinite(current.f) || current.f > maxFrequency)) {
++            maxFrequency = current.f;
++        }
+@@ -1406,0 +1469 @@
++    if (cfg.wideAngles) cfg.wideAngles = EncodeWideAngleLimit(maxFrequency);

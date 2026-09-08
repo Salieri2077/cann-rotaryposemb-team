@@ -1,0 +1,9 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -396,0 +397 @@
++        angleLocal_ = angleWork_.Get<float>();
+@@ -536 +537 @@
+-        return angleWork_.Get<float>()[index * cfg_->angleCapacity];
++        return angleLocal_[index * cfg_->angleCapacity];
+@@ -1054,0 +1056 @@
++    LocalTensor<float> angleLocal_;

@@ -1,0 +1,7 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -1328 +1328,3 @@
+-    cfg.batched = cfg.heads <= 4 && maxBatch >= tokenAlignment;
++    cfg.batched = (cfg.heads <= 4 ||
++                   (cfg.heads <= 8 && cfg.tokens >= cores && maxBatch >= 4))
++                  && maxBatch >= tokenAlignment;

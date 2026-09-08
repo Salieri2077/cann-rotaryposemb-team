@@ -1,0 +1,383 @@
+{
+  "scope": "Official CANN9.0.0 dav-2201 CAModel; one core, one launch; no simulation executed by this analysis; not real NPU measurements",
+  "case": {
+    "shape": [
+      1,
+      257,
+      3,
+      32
+    ],
+    "dtype": "float32",
+    "theta": 10000,
+    "seed": 2026090804
+  },
+  "method": [
+    "Merge SCALARLDST into SCALAR as official CSV does; cross-check opcode/PC/pipe instance counts.",
+    "Use ph=X [ts,ts+dur) intervals in microseconds; CACHEMISS separate; exclude WAIT/SET/BAR from non-sync pipe intervals.",
+    "Union within each pipe and intersect between pipes; these are in-flight intervals, not exclusive hardware service time or PMU utilization.",
+    "Source function ranges are discovered independently in both source files; old phase table is not used.",
+    "Source nearest-frame attribution and all raw PCs/intervals are retained for batch flag7; the zero-duration GetValue waits are counted separately."
+  ],
+  "input_bytes_identical": true,
+  "baseline": {
+    "kernel": "/data7/chenyundan/files/code/cann-lab/9.0.0/rope-sim/kernel.asc",
+    "kernel_sha256": "1b772e01fa7c7e1c7e22ea4f79c4b052d553ffe1b5e3cc17f2d6e0c0a9e56bb8",
+    "trace": "/data7/chenyundan/files/code/cann-lab/9.0.0/work/prof-low_h_pipeline/OPPROF_20260908012554_NXEFLBMZEFTIKHBD/simulator/core0.veccore0/trace.json",
+    "trace_sha256": "be2ba6ed60e3ee2569afc1a0bb78e6e1118824460356cb8da53abbd4258f128d",
+    "csv": "/data7/chenyundan/files/code/cann-lab/9.0.0/work/prof-low_h_pipeline/OPPROF_20260908012554_NXEFLBMZEFTIKHBD/simulator/core0.veccore0/core0.veccore0_instr_exe.csv",
+    "csv_sha256": "b77aad4bbd3edddff00311d9081ed0f9ee72fc279d85d561ac438d9b6d7c7568",
+    "trace_csv_instruction_instance_counts_match": true,
+    "input_sha256": {
+      "x.bin": "94995656cd11405e4a8edba1cbb875b7f1eaffe30d3de86a2d23899093be673c",
+      "positions.bin": "e124643f0ab5ab19637247686c26dab768c9c5e3b4c6e26ea5548dcd24e6a827"
+    },
+    "scope_ranges_from_this_source": {
+      "ProcessTokenBatch": [
+        1025,
+        1044
+      ],
+      "Position": [
+        505,
+        532
+      ],
+      "CopyIn": [
+        648,
+        668
+      ],
+      "CopyOut": [
+        670,
+        685
+      ],
+      "FinishTrig": [
+        539,
+        638
+      ],
+      "ExpandTokenTrig": [
+        1005,
+        1023
+      ],
+      "BroadcastTokenTrig": [
+        987,
+        1003
+      ]
+    },
+    "instruction_instances": 23607,
+    "instruction_window_us": 25.908000686671585,
+    "full_trace_window_us": 26.104000547435135,
+    "non_sync_pipes": {
+      "SCALAR": {
+        "instances": 17473,
+        "positive_duration_instances": 16915,
+        "union_us": 15.896651179878972
+      },
+      "VECTOR": {
+        "instances": 2702,
+        "positive_duration_instances": 2702,
+        "union_us": 17.90999749302864
+      },
+      "MTE2": {
+        "instances": 38,
+        "positive_duration_instances": 38,
+        "union_us": 5.752001952147111
+      },
+      "MTE3": {
+        "instances": 14,
+        "positive_duration_instances": 14,
+        "union_us": 5.870002835988998
+      }
+    },
+    "overlap_us": {
+      "VECTOR&MTE2": 2.2329982314258814,
+      "VECTOR&MTE3": 2.5830007987096906,
+      "MTE2&MTE3": 2.20500087342225
+    },
+    "flag7_MTE2_to_SCALAR_all": {
+      "instances": 264,
+      "positive_duration_instances": 7,
+      "union_us": 4.356756776571274
+    },
+    "flag7_MTE2_to_SCALAR_batch": {
+      "instances": 7,
+      "positive_duration_instances": 7,
+      "union_us": 4.356756776571274,
+      "waits": [
+        {
+          "pc": "0x1134bfe4",
+          "nearest_kernel_line": 1034,
+          "start_from_first_instruction_us": 1.5891351699829102,
+          "duration_us": 0.5167567729949951
+        },
+        {
+          "pc": "0x1134bfe4",
+          "nearest_kernel_line": 1034,
+          "start_from_first_instruction_us": 5.60859489440918,
+          "duration_us": 0.7054054141044617
+        },
+        {
+          "pc": "0x1134bfe4",
+          "nearest_kernel_line": 1034,
+          "start_from_first_instruction_us": 9.400486946105957,
+          "duration_us": 0.7043243050575256
+        },
+        {
+          "pc": "0x1134bfe4",
+          "nearest_kernel_line": 1034,
+          "start_from_first_instruction_us": 13.021027565002441,
+          "duration_us": 0.7059459686279297
+        },
+        {
+          "pc": "0x1134bfe4",
+          "nearest_kernel_line": 1034,
+          "start_from_first_instruction_us": 16.883729934692383,
+          "duration_us": 0.7043243050575256
+        },
+        {
+          "pc": "0x1134bfe4",
+          "nearest_kernel_line": 1034,
+          "start_from_first_instruction_us": 20.682649612426758,
+          "duration_us": 0.708108127117157
+        },
+        {
+          "pc": "0x1134bfe4",
+          "nearest_kernel_line": 1034,
+          "start_from_first_instruction_us": 24.30913543701172,
+          "duration_us": 0.3118918836116791
+        }
+      ]
+    },
+    "flag7_MTE2_to_SCALAR_position": {
+      "instances": 257,
+      "positive_duration_instances": 0,
+      "union_us": 0
+    },
+    "flag0_MTE2_to_SCALAR": {
+      "instances": 5,
+      "positive_duration_instances": 5,
+      "union_us": 0.8302702754735947
+    },
+    "input_X_DMA": {
+      "instances": 14,
+      "positive_duration_instances": 14,
+      "union_us": 4.804002434015274,
+      "vector_overlap_us": 2.2289980445057154,
+      "finish_trig_vector_overlap_us": 0
+    },
+    "position_DMA": {
+      "instances": 5,
+      "positive_duration_instances": 5,
+      "union_us": 0.9329999834299088
+    },
+    "finish_trig_vector": {
+      "instances": 315,
+      "positive_duration_instances": 315,
+      "union_us": 4.637995700351894
+    },
+    "vector_opcodes_non_sync": {
+      "MOVEMASK": 1644,
+      "VMULS": 292,
+      "VCONV": 14,
+      "VAXPY": 14,
+      "VSUB": 14,
+      "VABS": 7,
+      "VADDS": 91,
+      "VMUL": 105,
+      "VCOPY": 514,
+      "VADD": 7
+    },
+    "dma_opcodes_non_sync": {
+      "MTE2": {
+        "MOV_SPR_XN": 19,
+        "MOV_SRC_TO_DST_ALIGN": 19
+      },
+      "MTE3": {
+        "MOV_SRC_TO_DST_ALIGN": 14
+      }
+    }
+  },
+  "candidate": {
+    "kernel": "/data7/chenyundan/files/code/cann-lab/9.0.0/optimization-20260908/pipeline/kernel.asc",
+    "kernel_sha256": "be5191da6ea7eea871486f641d4a8d3efb74a49246f61a99d70e0082d41c4d71",
+    "trace": "/data7/chenyundan/files/code/cann-lab/9.0.0/optimization-20260908/pipeline/profiles/low_h_pipeline-87xhioqb/profile/OPPROF_20260908194314_IPDNSRVGZVISFQGX/simulator/core0.veccore0/trace.json",
+    "trace_sha256": "564eef9af3d6f1613077cca96b562a303a1e771fc857b51527b2e951af2517ff",
+    "csv": "/data7/chenyundan/files/code/cann-lab/9.0.0/optimization-20260908/pipeline/profiles/low_h_pipeline-87xhioqb/profile/OPPROF_20260908194314_IPDNSRVGZVISFQGX/simulator/core0.veccore0/core0.veccore0_instr_exe.csv",
+    "csv_sha256": "2f2c3952d1dc98daf584c1e45ab71e86273b509baf08670bb0797d827eec8309",
+    "trace_csv_instruction_instance_counts_match": true,
+    "input_sha256": {
+      "x.bin": "94995656cd11405e4a8edba1cbb875b7f1eaffe30d3de86a2d23899093be673c",
+      "positions.bin": "e124643f0ab5ab19637247686c26dab768c9c5e3b4c6e26ea5548dcd24e6a827"
+    },
+    "scope_ranges_from_this_source": {
+      "ProcessTokenBatch": [
+        1025,
+        1046
+      ],
+      "Position": [
+        505,
+        532
+      ],
+      "CopyIn": [
+        648,
+        668
+      ],
+      "CopyOut": [
+        670,
+        685
+      ],
+      "FinishTrig": [
+        539,
+        638
+      ],
+      "ExpandTokenTrig": [
+        1005,
+        1023
+      ],
+      "BroadcastTokenTrig": [
+        987,
+        1003
+      ]
+    },
+    "instruction_instances": 25527,
+    "instruction_window_us": 21.914000728633255,
+    "full_trace_window_us": 22.110000827815384,
+    "non_sync_pipes": {
+      "SCALAR": {
+        "instances": 19413,
+        "positive_duration_instances": 18855,
+        "union_us": 16.511695865774527
+      },
+      "VECTOR": {
+        "instances": 2702,
+        "positive_duration_instances": 2702,
+        "union_us": 17.037986794486642
+      },
+      "MTE2": {
+        "instances": 38,
+        "positive_duration_instances": 38,
+        "union_us": 5.749002433847636
+      },
+      "MTE3": {
+        "instances": 14,
+        "positive_duration_instances": 14,
+        "union_us": 4.767998307943344
+      }
+    },
+    "overlap_us": {
+      "VECTOR&MTE2": 4.47099778149277,
+      "VECTOR&MTE3": 3.525997219607234,
+      "MTE2&MTE3": 0.6529994269367307
+    },
+    "flag7_MTE2_to_SCALAR_all": {
+      "instances": 264,
+      "positive_duration_instances": 7,
+      "union_us": 0.0037837838754057884
+    },
+    "flag7_MTE2_to_SCALAR_batch": {
+      "instances": 7,
+      "positive_duration_instances": 7,
+      "union_us": 0.0037837838754057884,
+      "waits": [
+        {
+          "pc": "0x1134ac44",
+          "nearest_kernel_line": 1033,
+          "start_from_first_instruction_us": 1.3581352233886719,
+          "duration_us": 0.0005405405536293983
+        },
+        {
+          "pc": "0x1134ac44",
+          "nearest_kernel_line": 1033,
+          "start_from_first_instruction_us": 5.114351272583008,
+          "duration_us": 0.0005405405536293983
+        },
+        {
+          "pc": "0x1134ac44",
+          "nearest_kernel_line": 1033,
+          "start_from_first_instruction_us": 8.242459774017334,
+          "duration_us": 0.0005405405536293983
+        },
+        {
+          "pc": "0x1134ac44",
+          "nearest_kernel_line": 1033,
+          "start_from_first_instruction_us": 11.22191858291626,
+          "duration_us": 0.0005405405536293983
+        },
+        {
+          "pc": "0x1134ac44",
+          "nearest_kernel_line": 1033,
+          "start_from_first_instruction_us": 14.42516279220581,
+          "duration_us": 0.0005405405536293983
+        },
+        {
+          "pc": "0x1134ac44",
+          "nearest_kernel_line": 1033,
+          "start_from_first_instruction_us": 17.564080715179443,
+          "duration_us": 0.0005405405536293983
+        },
+        {
+          "pc": "0x1134ac44",
+          "nearest_kernel_line": 1033,
+          "start_from_first_instruction_us": 20.539756298065186,
+          "duration_us": 0.0005405405536293983
+        }
+      ]
+    },
+    "flag7_MTE2_to_SCALAR_position": {
+      "instances": 257,
+      "positive_duration_instances": 0,
+      "union_us": 0
+    },
+    "flag0_MTE2_to_SCALAR": {
+      "instances": 5,
+      "positive_duration_instances": 5,
+      "union_us": 0.8308108299970627
+    },
+    "input_X_DMA": {
+      "instances": 14,
+      "positive_duration_instances": 14,
+      "union_us": 4.800001680850983,
+      "vector_overlap_us": 4.053997035138309,
+      "finish_trig_vector_overlap_us": 3.991996225900948
+    },
+    "position_DMA": {
+      "instances": 5,
+      "positive_duration_instances": 5,
+      "union_us": 0.9340000003576279
+    },
+    "finish_trig_vector": {
+      "instances": 315,
+      "positive_duration_instances": 315,
+      "union_us": 4.623994925059378
+    },
+    "vector_opcodes_non_sync": {
+      "MOVEMASK": 1644,
+      "VMULS": 292,
+      "VCONV": 14,
+      "VAXPY": 14,
+      "VSUB": 14,
+      "VABS": 7,
+      "VADDS": 91,
+      "VMUL": 105,
+      "VCOPY": 514,
+      "VADD": 7
+    },
+    "dma_opcodes_non_sync": {
+      "MTE2": {
+        "MOV_SPR_XN": 19,
+        "MOV_SRC_TO_DST_ALIGN": 19
+      },
+      "MTE3": {
+        "MOV_SRC_TO_DST_ALIGN": 14
+      }
+    }
+  },
+  "comparison": {
+    "instruction_window_reduction_us": 3.99399995803833,
+    "instruction_window_reduction_percent": 15.41608712436483,
+    "batch_flag7_wait_union_reduction_us": 4.352972992695868,
+    "vector_MTE2_overlap_change_us": 2.2379995500668883,
+    "X_DMA_FinishTrig_vector_overlap_change_us": 3.991996225900948,
+    "scalar_non_sync_instruction_count_change": 1940,
+    "scalar_non_sync_interval_union_change_us": 0.6150446858955547,
+    "vector_non_sync_opcode_counts_equal": true,
+    "dma_non_sync_opcode_counts_equal": true
+  }
+}

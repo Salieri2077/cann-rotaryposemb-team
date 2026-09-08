@@ -1,0 +1,19 @@
+--- a/kernel.asc
++++ b/kernel.asc
+@@ -555,2 +555,14 @@
+-            for (uint32_t i = 0; i < count; ++i) {
+-                reduced.SetValue(i, ReduceAnglePayneHanek(angle.GetValue(i)));
++            if (HalfDim() == RowStride()) {
++                for (uint32_t i = 0; i < count; ++i) {
++                    reduced.SetValue(i, ReduceAnglePayneHanek(angle.GetValue(i)));
++                }
++            } else {
++                // Padding frequencies are zero, so finite integer positions
++                // produce signed zero there. Preserve those slots directly.
++                // Every real frequency, including Inf, still goes through PH.
++                for (uint32_t row = 0; row < count; row += RowStride()) {
++                    for (uint32_t i = 0; i < HalfDim(); ++i) {
++                        const uint32_t index = row + i;
++                        reduced.SetValue(index, ReduceAnglePayneHanek(angle.GetValue(index)));
++                    }
++                }
